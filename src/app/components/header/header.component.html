@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+   <div>
+    <strong>CDP-Sistema</strong>
+  </div>
+   <div fxFlex fxLayout fxLayoutAlign="flex-start" fxHide.xs>
+    <ul fxLayout fxLayoutGap="25px" class="navigation-items">
+      <li>
+         <a routerLink="/dias" (click)="changeMiniHeader($event.target.text)">Dias</a>
+      </li>
+      <li>
+          <a routerLink="/periodos" (click)="changeMiniHeader($event.target.text)">Períodos</a>
+       </li>
+       <li>
+        <a routerLink="/diasperiodos" (click)="changeMiniHeader($event.target.text)">DiasXPeríodos</a>
+      </li>
+      <li>
+        <a routerLink="/circuitos" (click)="changeMiniHeader($event.target.text)">Circuitos</a>
+      </li>
+      <li>
+        <a routerLink="/congregacoes" (click)="changeMiniHeader($event.target.text)">Congregações</a>
+      </li>
+      <li>
+        <a routerLink="/circuitos" (click)="changeMiniHeader($event.target.text)">Voluntários</a>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li fxFlex fxLayout fxLayoutAlign="flex-end"  fxHide.xs>
+          <a routerLink="/" (click)="onLogout()" id="sair">Sair</a>
+      </li>
+    </ul>
+  </div>
+</mat-toolbar>
+
+
+
+

@@ -1,0 +1,28 @@
+a {
+  text-decoration: none;
+  color: white;
+  font-size: 0.7em;
+}
+
+a:hover,
+a:active {
+  color: lightgray;
+  font-size: 1em;
+}
+
+a:focus{
+  background-color: hotpink;
+  font-size: 1em;
+  border: 2px solid red;
+}
+
+#sair{
+  margin-right: 20%
+}
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+<h1 mat-dialog-title><strong>Atualizar congregação</strong></h1>
+
+<div mat-dialog-content [formGroup]="form" >
+  <mat-form-field>
+    <input
+    formControlName="name"
+    matInput
+    placeholder="Congregação"
+    required>
+  </mat-form-field>
+
+    <mat-form-field>
+      <mat-select name="circuito"
+                  placeholder="Circuito"
+                  formControlName="circuito"
+                  >
+        <mat-option *ngFor="let c of circuitos" [value]="c">
+          {{c}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button type="submit" mat-dialog-close id="buttonYes" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">Salvar</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" id="buttonNo" mat-button [mat-dialog-close]>Cancelar</button>
+</div>
+<p>You selected: {{form.value.circuito | json}}</p>

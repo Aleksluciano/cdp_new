@@ -1,0 +1,29 @@
+<h1 mat-dialog-title><strong>Adicionar congregação</strong></h1>
+
+<div mat-dialog-content [formGroup]="form" >
+  <mat-form-field>
+    <input
+    formControlName="name"
+    matInput
+    placeholder="Congregação"
+    required>
+  </mat-form-field>
+  <div>
+  <mat-form-field>
+    <mat-select placeholder="Circuito" formControlName="circuito">
+      <mat-option *ngFor="let c of circuitos" [value]="c">
+        {{c}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+</div>
+<div mat-dialog-actions>
+  <button type="submit" mat-dialog-close id="buttonYes" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">Criar</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" id="buttonNo" mat-button [mat-dialog-close]>Cancelar</button>
+</div>
+
+
+
+

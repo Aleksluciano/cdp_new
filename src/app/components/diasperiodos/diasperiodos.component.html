@@ -1,0 +1,14 @@
+
+
+
+<mat-card *ngFor="let obj of diaPeriodo " fxFlex fxLayout=”column” id="listaDiaPeriodo">
+ <div fxLayoutGap="32px">
+  <h3>{{ obj.dias }}</h3>
+  <div *ngFor="let periodo of obj.periodos ">
+
+        <h4 ><mat-checkbox>{{ periodo }}</mat-checkbox></h4>
+
+  </div>
+</div>
+</mat-card>
+

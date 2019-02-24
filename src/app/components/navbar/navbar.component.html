@@ -1,0 +1,28 @@
+<mat-nav-list>
+    <a mat-list-item routerLink="/dias" >
+      <!-- <mat-icon>group</mat-icon> -->
+      <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Dias</span>
+    </a>
+    <a mat-list-item routerLink="/periodos" >
+      <!-- <mat-icon>perm_identity</mat-icon> -->
+      <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Períodos</span>
+    </a>
+    <a mat-list-item routerLink="/diasperiodos" >
+      <!-- <mat-icon>perm_identity</mat-icon> -->
+      <span class="nav-caption" (click)="onClose($event.target.innerHTML)">DiasXPeriodos</span>
+    </a>
+    <a mat-list-item routerLink="/circuitos" >
+      <!-- <mat-icon>toys</mat-icon> -->
+      <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Circuitos</span>
+    </a>
+    <a mat-list-item routerLink="/congregacoes" >
+      <!-- <mat-icon>toys</mat-icon> -->
+      <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Congregacoes</span>
+    </a>
+    <mat-list-item>
+      <button mat-icon-button (click)="onLogout()">
+        <mat-icon>arrow_back</mat-icon>
+        <span class="nav-caption">Sair</span>
+      </button>
+    </mat-list-item>
+  </mat-nav-list>

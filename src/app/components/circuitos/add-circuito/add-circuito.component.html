@@ -1,0 +1,21 @@
+<h1 mat-dialog-title><strong>Adicionar circuito</strong></h1>
+
+<div mat-dialog-content [formGroup]="form" >
+  <mat-form-field>
+    <input
+    #name (input)="name.value=$event.target.value.toUpperCase()"
+    formControlName="name"
+    matInput
+    placeholder="Circuito"
+    required>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button type="submit" mat-dialog-close id="buttonYes" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">Criar</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" id="buttonNo" mat-button [mat-dialog-close]>Cancelar</button>
+</div>
+
+
+
+

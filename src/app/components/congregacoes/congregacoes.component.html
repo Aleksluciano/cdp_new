@@ -1,0 +1,19 @@
+<button id="buttonAdd" mat-raised-button color="primary" (click)="add()">+</button>
+<h3 id="total"><strong>Total: {{ congregacoes.length }}</strong></h3>
+
+<mat-list role="list" *ngIf="congregacoes.length > 0">
+  <mat-list-item role="listitem" *ngFor="let c of congregacoes"><strong id="congAlign"> {{ c?.name }} </strong>
+
+    <mat-divider></mat-divider>
+<div class="right" >
+    <span id="circuitoStyle">{{ c?.circuito }}</span>
+    <button mat-icon-button color="accent" (click)="edit(c)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="delete(c)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  </mat-list-item>
+
+</mat-list>
