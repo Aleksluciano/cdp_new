@@ -1,6 +1,7 @@
-mat-list{
-  margin-top: 20px;
+
+mat-list-item{
   background-color: #FDFFFC;
+
 }
 
 .right{
@@ -17,5 +18,14 @@ margin-right: 25px
 }
 
 #circuitoStyle{
-  font-size: .8em;
+  font-size: .7em;
+}
+
+.quadList{
+  max-height:120vh;
+  margin-bottom: 70px;
+}
+
+.wrap{
+  margin-bottom: 70px;
 }

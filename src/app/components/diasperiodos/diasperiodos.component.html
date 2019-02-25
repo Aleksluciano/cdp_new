@@ -1,14 +1,18 @@
-
-
-
-<mat-card *ngFor="let obj of diaPeriodo " fxFlex fxLayout=”column” id="listaDiaPeriodo">
- <div fxLayoutGap="32px">
-  <h3>{{ obj.dias }}</h3>
-  <div *ngFor="let periodo of obj.periodos ">
-
-        <h4 ><mat-checkbox>{{ periodo }}</mat-checkbox></h4>
-
-  </div>
+<div>
+  <button id="buttonAdd" mat-raised-button color="primary" (click)="save()">Salvar</button>
 </div>
-</mat-card>
+<div fxLayout="row" fxLayout.lt-sm="column" >
+<mat-card *ngFor="let obj of diaPeriodo"  id="listaDiaPeriodo" >
+  <div class="cardGap" fxLayoutGap="32px">
+    <h3>{{ obj.dias }}</h3>
+    <div *ngFor="let periodo of obj.periodos" >
 
+      <h4>
+        <mat-checkbox [(ngModel)]="periodo.checked">{{ periodo.name }}</mat-checkbox>
+      </h4>
+
+
+    </div>
+  </div>
+</mat-card>
+</div>

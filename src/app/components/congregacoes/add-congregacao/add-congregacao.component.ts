@@ -32,7 +32,9 @@ export class AddCongregacaoComponent implements OnInit {
 
     this.form = this.fb.group({
       name: ['', Validators.required],
-      circuito: ['', Validators.required]
+      circuito: ['', Validators.required],
+      secretario: ['', Validators.required],
+      contatoSecretario: ['', Validators.required],
       });
 
       this.circuitoService.get().subscribe(data => {

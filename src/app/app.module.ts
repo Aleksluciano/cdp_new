@@ -10,6 +10,8 @@ import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/fi
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FlexLayoutModule } from '@angular/flex-layout';
 ///////////////////////////////////////////////////////////////////
+import { NgxMaskModule } from 'ngx-mask';
+/////////////////////////////////////////////////////////////////
 
 import {
   MatTableModule,
@@ -31,7 +33,11 @@ import {
   MatToolbarModule,
   MatChipsModule,
   MatSnackBarModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatRadioModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MAT_DATE_LOCALE
 } from '@angular/material';
 import {
   BrowserAnimationsModule
@@ -55,6 +61,9 @@ import { CongregacoesComponent } from './components/congregacoes/congregacoes.co
 import { EditCongregacaoComponent } from './components/congregacoes/edit-congregacao/edit-congregacao.component';
 import { AddCongregacaoComponent } from './components/congregacoes/add-congregacao/add-congregacao.component';
 import { DiasperiodosComponent } from './components/diasperiodos/diasperiodos.component';
+import { VoluntariosComponent } from './components/voluntarios/voluntarios.component';
+import { AddVoluntarioComponent } from './components/voluntarios/add-voluntario/add-voluntario.component';
+import { EditVoluntarioComponent } from './components/voluntarios/edit-voluntario/edit-voluntario.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +84,10 @@ import { DiasperiodosComponent } from './components/diasperiodos/diasperiodos.co
     CongregacoesComponent,
     EditCongregacaoComponent,
     AddCongregacaoComponent,
-    DiasperiodosComponent
+    DiasperiodosComponent,
+    VoluntariosComponent,
+    AddVoluntarioComponent,
+    EditVoluntarioComponent
   ],
   imports: [
     BrowserModule,
@@ -108,10 +120,18 @@ import { DiasperiodosComponent } from './components/diasperiodos/diasperiodos.co
     MatToolbarModule,
     MatChipsModule,
     MatSnackBarModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ///////////////
+    NgxMaskModule.forRoot(),
 
   ],
-  providers: [{ provide: FirestoreSettingsToken, useValue: {} }
+  providers: [{ provide: FirestoreSettingsToken, useValue: {} },
+    { provide: MatDatepickerModule, useValue: {} },
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
+
   ],
   bootstrap: [AppComponent],
   entryComponents:
@@ -124,6 +144,8 @@ import { DiasperiodosComponent } from './components/diasperiodos/diasperiodos.co
     EditPeriodoComponent,
     AddCongregacaoComponent,
     EditCongregacaoComponent,
+    AddVoluntarioComponent,
+    EditVoluntarioComponent,
   ]
 })
 export class AppModule { }

@@ -3,4 +3,6 @@ export interface Congregacao {
   id?: string;
   name: string;
   circuito: string;
+  secretario: string;
+  contatoSecretario: string;
 }

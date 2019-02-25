@@ -1,0 +1,105 @@
+<h1 mat-dialog-title><strong>Atualizar voluntário</strong></h1>
+<div class="dialog">
+  <div mat-dialog-content>
+    <div [formGroup]="form">
+      <div>
+        <div>
+          <mat-form-field id="nome">
+            <input formControlName="nome" matInput placeholder="Voluntario" required>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field>
+          <mat-select placeholder="Cidade" formControlName="cidade" required>
+            <mat-option *ngFor="let c of cidades" [value]="c">
+              {{c}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field>
+          <mat-select placeholder="Congregação" formControlName="congregacao" required (selectionChange)="findDataCongregation($event.value)">
+            <mat-option *ngFor="let c of data.congregacoes" [value]="c">
+              {{c}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="form.value.congregacao">
+          <span>Circuito: </span><strong><span id="labelCircuito"> {{ data?.dataCong?.circuito }}</span></strong>
+          <span class="left">Secretário: </span><strong><span id="labelCircuito"> {{ data.dataCong?.secretario }}</span></strong>
+          <span class="left">Contato Secretário: </span><strong><span id="labelCircuito"> {{
+              data?.dataCong?.contatoSecretario | mask:"(00) 00000-0000" }}</span></strong>
+        </div>
+
+      </div>
+      <div class="top">
+        <mat-radio-group formControlName="privilegio">
+          <mat-radio-button value="1">Publicador</mat-radio-button>
+          <mat-radio-button value="2">Ancião</mat-radio-button>
+          <mat-radio-button value="3">Servo</mat-radio-button>
+          <mat-radio-button value="4">Pioneiro Regular</mat-radio-button>
+          <mat-radio-button value="5">Pioneiro Auxiliar TI</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+
+      <mat-form-field class="top">
+        <input formControlName="observacao" matInput placeholder="Observação">
+      </mat-form-field>
+
+      <mat-form-field class="top">
+      <input matInput [matDatepicker]="it" formControlName="ultimavez"
+      placeholder="Data da última participação">
+      </mat-form-field>
+      <mat-datepicker-toggle  [for]="it" ></mat-datepicker-toggle>
+      <mat-datepicker #it ></mat-datepicker>
+
+      <div class="top">
+        <mat-checkbox class="dependente" #dependente formControlName="dependente" (click)="changeValidator(dependente.checked)">Depende
+          de outra pessoa para participar!</mat-checkbox>
+
+
+        <mat-form-field *ngIf="dependente.checked">
+
+
+          <mat-select placeholder="Nome *" formControlName="nomeDependente">
+            <mat-option *ngFor="let c of data.voluntarioRef" [value]="c.id">
+              {{c.nomeDependente }} <span class="aditional">Congregação: {{c.congregacao }}</span>
+            </mat-option>
+          </mat-select>
+
+
+        </mat-form-field>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="!dependente.checked">
+      <h3>Disponibilidade: </h3>
+      <div fxLayout="row" fxLayout.lt-sm="column">
+
+        <mat-card *ngFor="let obj of data.diaPeriodoSet" id="listaDiaPeriodo" fxLayout="row">
+          <div class="cardGap" fxLayoutGap="32px">
+            <h3>{{ obj.dias }}</h3>
+            <div *ngFor="let periodo of obj.periodos">
+
+              <h4>
+                <mat-checkbox [(ngModel)]="periodo.checked">{{ periodo.name }}</mat-checkbox>
+              </h4>
+
+
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button type="submit" mat-dialog-close id="buttonYes" mat-raised-button color="primary" (click)="onSubmit()"
+    [disabled]="!form.valid">Salvar</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" id="buttonNo" mat-button [mat-dialog-close]>Cancelar</button>
+</div>

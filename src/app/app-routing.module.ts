@@ -7,6 +7,7 @@ import { DiasComponent } from './components/dias/dias.component';
 import { PeriodosComponent } from './components/periodos/periodos.component';
 import { CongregacoesComponent } from './components/congregacoes/congregacoes.component';
 import { DiasperiodosComponent } from './components/diasperiodos/diasperiodos.component';
+import { VoluntariosComponent } from './components/voluntarios/voluntarios.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'periodos', component: PeriodosComponent, canActivate: [AuthGuard]},
   {path: 'congregacoes', component: CongregacoesComponent, canActivate: [AuthGuard]},
   {path: 'diasperiodos', component: DiasperiodosComponent, canActivate: [AuthGuard]},
+  {path: 'voluntarios', component: VoluntariosComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

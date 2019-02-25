@@ -1,8 +1,9 @@
 <button id="buttonAdd" mat-raised-button color="primary" (click)="add()">+</button>
 <h3 id="total"><strong>Total: {{ congregacoes.length }}</strong></h3>
 
-<mat-list role="list" *ngIf="congregacoes.length > 0">
-  <mat-list-item role="listitem" *ngFor="let c of congregacoes"><strong id="congAlign"> {{ c?.name }} </strong>
+<div class="wrap">
+<mat-list role="list" *ngIf="congregacoes.length > 0"  fxLayout="row" fxLayout.lt-sm="column" fxLayout="column wrap" fxLayout.lt-sm="row wrap" fxLayoutGap="16px grid" class="quadList">
+  <mat-list-item   role="listitem" *ngFor="let c of congregacoes"><strong id="congAlign"> {{ c?.name }} </strong>
 
     <mat-divider></mat-divider>
 <div class="right" >
@@ -14,6 +15,8 @@
       <mat-icon>delete</mat-icon>
     </button>
   </div>
+  
   </mat-list-item>
 
 </mat-list>
+</div>

@@ -25,6 +25,7 @@ export class CongregacoesComponent implements OnInit {
     this.congregacaoService.get().subscribe(data => {
 
       this.congregacoes = data;
+      console.log(this.congregacoes);
     });
 
     this.circuitoService.get().subscribe(data => {

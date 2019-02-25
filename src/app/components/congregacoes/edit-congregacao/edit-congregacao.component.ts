@@ -44,6 +44,8 @@ export class EditCongregacaoComponent implements OnInit {
     this.form = this.fb.group({
       name: [this.data.obj.name, Validators.required],
       circuito: [ this.data.obj.circuito, Validators.required],
+      secretario: [this.data.obj.secretario, Validators.required],
+      contatoSecretario: [this.data.obj.contatoSecretario, Validators.required],
       });
 
 
