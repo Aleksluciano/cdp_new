@@ -48,7 +48,6 @@ export class DiasComponent implements OnInit {
     };
 
     dialogConfig.data = {
-      message: `Deseja realmente remover o dia`,
       obj: data
     };
 

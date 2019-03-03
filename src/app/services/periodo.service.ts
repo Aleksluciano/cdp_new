@@ -3,6 +3,7 @@ import { AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestore 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Periodo } from '../models/periodo.model';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class PeriodoService {
   periodo: Observable<Periodo>;
 
   constructor(
+    private snackBar: MatSnackBar,
     private afs: AngularFirestore,
 
     ) {
@@ -40,7 +42,9 @@ export class PeriodoService {
    }
 
    create(periodo: Periodo) {
-     return this.periodosCollection.add(periodo);
+    this.periodosCollection.add(periodo).then(_ => {
+      this.openSnackBar('Adicionado');
+    });
    }
 
    pick(id: string): Observable<Periodo> {
@@ -64,14 +68,27 @@ export class PeriodoService {
    update(periodo: Periodo) {
 
     this.periodoDoc = this.afs.doc(`periodos/${periodo.id}`);
-     return this.periodoDoc.update(periodo);
+     this.periodoDoc.update(periodo).then( _ => {
+      this.openSnackBar('Atualizado');
+    });
 
    }
 
    delete(id: string) {
     this.periodoDoc = this.afs.doc(`periodos/${id}`);
-    return this.periodoDoc.delete();
+    this.periodoDoc.delete().then( _ => {
+      this.openSnackBar('Removido');
+    });
 
    }
+
+   openSnackBar(msg) {
+
+    this.snackBar.open(`${msg}!`, 'OK', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['green-snackbar']
+    }, );
+  }
 
 }

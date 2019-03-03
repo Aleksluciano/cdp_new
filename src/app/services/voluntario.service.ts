@@ -3,6 +3,7 @@ import { AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestore 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Voluntario } from '../models/voluntario.model';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class VoluntarioService {
   voluntario: Observable<Voluntario>;
 
   constructor(
+    private snackBar: MatSnackBar,
     private afs: AngularFirestore,
 
     ) {
@@ -40,7 +42,9 @@ export class VoluntarioService {
    }
 
    create(voluntario: Voluntario) {
-     return this.voluntariosCollection.add(voluntario);
+     this.voluntariosCollection.add(voluntario).then(_ => {
+        this.openSnackBar('Adicionado');
+      });
    }
 
    pick(id: string): Observable<Voluntario> {
@@ -64,14 +68,27 @@ export class VoluntarioService {
    update(voluntario: Voluntario) {
 
     this.voluntarioDoc = this.afs.doc(`voluntarios/${voluntario.id}`);
-     return this.voluntarioDoc.update(voluntario);
+     this.voluntarioDoc.update(voluntario).then(_ => {
+        this.openSnackBar('Atualizado');
+      });
 
    }
 
    delete(id: string) {
     this.voluntarioDoc = this.afs.doc(`voluntarios/${id}`);
-    return this.voluntarioDoc.delete();
+    this.voluntarioDoc.delete().then(_ => {
+      this.openSnackBar('Removido');
+    });
 
    }
+
+   openSnackBar(msg) {
+
+    this.snackBar.open(`${msg}!`, 'OK', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['green-snackbar']
+    }, );
+  }
 
 }

@@ -3,6 +3,7 @@ import { AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestore 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Congregacao } from '../models/congregacao.model';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class CongregacaoService {
   congregacao: Observable<Congregacao>;
 
   constructor(
+    private snackBar: MatSnackBar,
     private afs: AngularFirestore,
 
     ) {
@@ -40,7 +42,9 @@ export class CongregacaoService {
    }
 
    create(congregacao: Congregacao) {
-     return this.congregacoesCollection.add(congregacao);
+     this.congregacoesCollection.add(congregacao).then(_ => {
+      this.openSnackBar('Adicionado');
+    });
    }
 
    pick(id: string): Observable<Congregacao> {
@@ -64,14 +68,27 @@ export class CongregacaoService {
    update(congregacao: Congregacao) {
 
     this.congregacaoDoc = this.afs.doc(`congregacoes/${congregacao.id}`);
-     return this.congregacaoDoc.update(congregacao);
+     this.congregacaoDoc.update(congregacao).then(_ => {
+      this.openSnackBar('Atualizado');
+    });
 
    }
 
    delete(id: string) {
     this.congregacaoDoc = this.afs.doc(`congregacoes/${id}`);
-    return this.congregacaoDoc.delete();
+    this.congregacaoDoc.delete().then(_ => {
+      this.openSnackBar('Removido');
+    });
 
    }
+
+   openSnackBar(msg) {
+
+    this.snackBar.open(`${msg}!`, 'OK', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['green-snackbar']
+    }, );
+  }
 
 }

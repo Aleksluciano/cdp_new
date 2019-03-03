@@ -1,4 +1,5 @@
 <h1 mat-dialog-title><strong>Atualizar voluntário</strong></h1>
+<p>Os campos com * são obrigatórios</p>
 <div class="dialog">
   <div mat-dialog-content>
     <div [formGroup]="form">
@@ -10,29 +11,53 @@
         </div>
 
         <mat-form-field>
-          <mat-select placeholder="Cidade" formControlName="cidade" required>
-            <mat-option *ngFor="let c of cidades" [value]="c">
-              {{c}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+            <mat-select placeholder="Sexo" formControlName="sexo" required>
+              <mat-option *ngFor="let c of sexo" [value]="c.id">
+                {{c.nome}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+              <mat-select placeholder="Congregação" formControlName="congregacao" required (selectionChange)="findDataCongregation($event.value)">
+                <mat-option *ngFor="let c of data.congregacoes" [value]="c">
+                  {{c}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="form.value.congregacao">
+              <span>Circuito: </span><strong><span id="labelCircuito"> {{ data?.dataCong?.circuito }}</span></strong>
+              <span class="left">Secretário: </span><strong><span id="labelCircuito"> {{ data.dataCong?.secretario }}</span></strong>
+              <span class="left">Contato Secretário: </span><strong><span id="labelCircuito"> {{
+                  data?.dataCong?.contatoSecretario | mask:"(00) 00000-0000" }}</span></strong>
+            </div>
+
+            <mat-form-field class="top">
+                <mat-select placeholder="Cidade" formControlName="cidade" required>
+                  <mat-option *ngFor="let c of cidades" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 
 
-        <mat-form-field>
-          <mat-select placeholder="Congregação" formControlName="congregacao" required (selectionChange)="findDataCongregation($event.value)">
-            <mat-option *ngFor="let c of data.congregacoes" [value]="c">
-              {{c}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="form.value.congregacao">
-          <span>Circuito: </span><strong><span id="labelCircuito"> {{ data?.dataCong?.circuito }}</span></strong>
-          <span class="left">Secretário: </span><strong><span id="labelCircuito"> {{ data.dataCong?.secretario }}</span></strong>
-          <span class="left">Contato Secretário: </span><strong><span id="labelCircuito"> {{
-              data?.dataCong?.contatoSecretario | mask:"(00) 00000-0000" }}</span></strong>
-        </div>
+          <mat-form-field>
+              <input matInput placeholder="Email" type="email" formControlName="email"
+              pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+              #email (input)="email.value=$event.target?.value?.toLowerCase()"
+              >
+            </mat-form-field>
+
+            <mat-form-field>
+                <input formControlName="telefone" matInput placeholder="Telefone" minlength="11"
+                  mask="(00) 00000-0000" >
+              </mat-form-field>
+
 
       </div>
+      <br>
+      <br>
+      <hr>
       <div class="top">
         <mat-radio-group formControlName="privilegio">
           <mat-radio-button value="1">Publicador</mat-radio-button>
@@ -42,22 +67,29 @@
           <mat-radio-button value="5">Pioneiro Auxiliar TI</mat-radio-button>
         </mat-radio-group>
       </div>
+      <hr>
+      <mat-checkbox formControlName="lider">Líder de grupo
+        </mat-checkbox>
+        <hr>
 
-
+        <br>
       <mat-form-field class="top">
         <input formControlName="observacao" matInput placeholder="Observação">
       </mat-form-field>
 
-      <mat-form-field class="top">
-      <input matInput [matDatepicker]="it" formControlName="ultimavez"
-      placeholder="Data da última participação">
-      </mat-form-field>
-      <mat-datepicker-toggle  [for]="it" ></mat-datepicker-toggle>
-      <mat-datepicker #it ></mat-datepicker>
+      <mat-form-field class="top" id="datePicker">
+          <input matInput [matDatepicker]="it" formControlName="ultimavez"
+          placeholder="Data da última participação" maxlength="10" required>
+          <mat-datepicker-toggle  matSuffix [for]="it" ></mat-datepicker-toggle>
+          <mat-datepicker #it ></mat-datepicker>
+          </mat-form-field>
+
 
       <div class="top">
-        <mat-checkbox class="dependente" #dependente formControlName="dependente" (click)="changeValidator(dependente.checked)">Depende
-          de outra pessoa para participar!</mat-checkbox>
+        <mat-checkbox [disabled]="semdispo" class="dependente" #dependente formControlName="dependente" (change)="changeValidator(dependente.checked)">Depende
+          de outro voluntário!
+        </mat-checkbox>
+        <mat-hint>(Casos de carona, cônjuge, filhos...)</mat-hint>
 
 
         <mat-form-field *ngIf="dependente.checked">
@@ -73,11 +105,11 @@
         </mat-form-field>
 
       </div>
+     </div>
 
-    </div>
-
-    <div *ngIf="!dependente.checked">
-      <h3>Disponibilidade: </h3>
+    <div *ngIf="!dependente?.checked">
+       <br>
+      <h3>Disponibilidade: *</h3>
       <div fxLayout="row" fxLayout.lt-sm="column">
 
         <mat-card *ngFor="let obj of data.diaPeriodoSet" id="listaDiaPeriodo" fxLayout="row">
@@ -86,7 +118,7 @@
             <div *ngFor="let periodo of obj.periodos">
 
               <h4>
-                <mat-checkbox [(ngModel)]="periodo.checked">{{ periodo.name }}</mat-checkbox>
+                <mat-checkbox [(ngModel)]="periodo.checked" [disabled]="semdispo" (change)="verifySomeDispoChecked()">{{ periodo.name }}</mat-checkbox>
               </h4>
 
 
@@ -94,12 +126,16 @@
           </div>
         </mat-card>
       </div>
+      <mat-checkbox [(ngModel)]="semdispo" (change)="clearDispo()">Permite salvar
+          sem disponibilidade!
+          </mat-checkbox>
+          <mat-hint>(Em razão de viagem, doença, imprevistos...)</mat-hint>
     </div>
   </div>
 </div>
 <div mat-dialog-actions>
   <button type="submit" mat-dialog-close id="buttonYes" mat-raised-button color="primary" (click)="onSubmit()"
-    [disabled]="!form.valid">Salvar</button>
+  [disabled]="!form.valid || (form.valid && !someDispoChecked && !semdispo && !dependente?.checked)">Salvar</button>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button type="button" id="buttonNo" mat-button [mat-dialog-close]>Cancelar</button>
 </div>

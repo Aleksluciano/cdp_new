@@ -1,6 +1,7 @@
 
   mat-form-field {
     width: 100%;
+    display: block;
   }
 
 mat-radio-button{
@@ -29,7 +30,7 @@ mat-card{
 }
 
 .top{
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .left{
@@ -39,3 +40,9 @@ mat-card{
 font-size: 0.7em;
 float: right;
 }
+
+#datePicker{
+  max-width: 250px;
+}
+
+

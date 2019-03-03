@@ -2,6 +2,9 @@
 export interface Voluntario {
   id?: string;
   nome: string;
+  sexo: string;
+  email?: string;
+  telefone?: string;
   cidade: string;
   congregacao: string;
   privilegio: string;
@@ -10,7 +13,16 @@ export interface Voluntario {
   nomeDependente: any;
   disponibilidade?: any;
   ultimavez?: Date;
+  semdispo?: boolean;
+  lider?: boolean;
+}
 
 
+export interface PerSet {
+  name: string; checked: boolean;
+}
 
+export interface PeriodoSet {
+dias: string;
+periodos: PerSet[];
 }

@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private afAuth: AngularFireAuth) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private afAuth: AngularFireAuth) { }
 
   login(email: string, password: string) {
     return new Promise((resolve, reject) => {
@@ -16,7 +19,10 @@ export class AuthService {
 
         resolve(userData);
       },
-      err => reject(err));
+      err => {
+        this.openSnackBar();
+        reject(err);
+      });
     });
   }
 
@@ -35,5 +41,14 @@ export class AuthService {
       .then(userData => resolve(userData),
       err => reject(err));
     });
+  }
+
+  openSnackBar() {
+
+    this.snackBar.open('Credenciais inválidas!', 'OK', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['red-snackbar']
+    }, );
   }
 }

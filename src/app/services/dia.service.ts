@@ -3,6 +3,7 @@ import { AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestore 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Dia } from '../models/dia.model';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class DiaService {
   dia: Observable<Dia>;
 
   constructor(
+    private snackBar: MatSnackBar,
     private afs: AngularFirestore,
 
     ) {
@@ -40,7 +42,9 @@ export class DiaService {
    }
 
    create(dia: Dia) {
-     return this.diasCollection.add(dia);
+     this.diasCollection.add(dia).then(_ => {
+      this.openSnackBar('Adicionado');
+    });
    }
 
    pick(id: string): Observable<Dia> {
@@ -64,14 +68,27 @@ export class DiaService {
    update(dia: Dia) {
 
     this.diaDoc = this.afs.doc(`dias/${dia.id}`);
-     return this.diaDoc.update(dia);
+     this.diaDoc.update(dia).then(_ => {
+      this.openSnackBar('Atualizado');
+    });
 
    }
 
    delete(id: string) {
     this.diaDoc = this.afs.doc(`dias/${id}`);
-    return this.diaDoc.delete();
+    this.diaDoc.delete().then(_ => {
+      this.openSnackBar('Removido');
+    });
 
    }
+
+   openSnackBar(msg) {
+
+    this.snackBar.open(`${msg}!`, 'OK', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['green-snackbar']
+    }, );
+  }
 
 }

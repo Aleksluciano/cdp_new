@@ -3,6 +3,7 @@ import { AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestore 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Circuito } from '../models/circuito.model';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class CircuitoService {
   circuito: Observable<Circuito>;
 
   constructor(
+    private snackBar: MatSnackBar,
     private afs: AngularFirestore,
 
     ) {
@@ -40,7 +42,9 @@ export class CircuitoService {
    }
 
    create(circuito: Circuito) {
-     return this.circuitosCollection.add(circuito);
+     this.circuitosCollection.add(circuito).then(_ => {
+      this.openSnackBar('Adicionado');
+    });
    }
 
    pick(id: string): Observable<Circuito> {
@@ -64,14 +68,26 @@ export class CircuitoService {
    update(circuito: Circuito) {
 
     this.circuitoDoc = this.afs.doc(`circuitos/${circuito.id}`);
-     return this.circuitoDoc.update(circuito);
+     this.circuitoDoc.update(circuito).then(_ => {
+      this.openSnackBar('Atualizado');
+    });
 
    }
 
    delete(id: string) {
     this.circuitoDoc = this.afs.doc(`circuitos/${id}`);
-    return this.circuitoDoc.delete();
+    this.circuitoDoc.delete().then(_ => {
+      this.openSnackBar('Removido');
+    });
 
    }
+
+   openSnackBar(msg) {
+    this.snackBar.open(`${msg}!`, 'OK', {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['green-snackbar']
+    }, );
+  }
 
 }

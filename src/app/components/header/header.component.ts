@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
   @Output() logout = new EventEmitter<void>();
   @Output() miniText = new EventEmitter<string>();
 
+  @Input() loggedInUser: string;
 
 
   constructor() { }

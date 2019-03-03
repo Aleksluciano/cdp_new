@@ -37,9 +37,6 @@ export class CongregacoesComponent implements OnInit {
 
   add() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.position = {
-      top: '10%'
-    };
 
     this.dialog
       .open(AddCongregacaoComponent, dialogConfig)
@@ -53,15 +50,13 @@ export class CongregacoesComponent implements OnInit {
 
   edit(data) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.position = {
-      top: '10%'
-    };
 
     dialogConfig.data = {
-      message: `Deseja realmente remover o congregacao`,
       obj: data,
       circuitos: this.circuitos
     };
+
+
 
     this.dialog
       .open(EditCongregacaoComponent, dialogConfig)
@@ -80,7 +75,7 @@ export class CongregacoesComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.data = {
-      message: `Deseja realmente remover o congregacao`,
+      message: `Deseja realmente remover a congregacao`,
       item: `${data.name}`
     };
 

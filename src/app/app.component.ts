@@ -10,9 +10,10 @@ import { AuthService } from './services/auth-service.service';
 export class AppComponent implements OnInit {
   isLoggedIn: boolean;
   request: boolean;
+  loggedInUser: string;
 
   title = 'cdp';
-  textMiniHeader = 'Circuitos';
+  textMiniHeader = '';
 
   constructor(
     private authService: AuthService,
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
     this.authService.getAuth().subscribe(auth => {
       if (auth) {
         this.isLoggedIn = true;
+        this.loggedInUser = auth.email;
       } else {
         this.isLoggedIn = false;
       }

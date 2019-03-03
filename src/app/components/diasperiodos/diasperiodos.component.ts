@@ -61,7 +61,7 @@ export class DiasperiodosComponent implements OnInit {
       });
 
       this.diaPeriodo.forEach((a, i) => {
-       this.diaPeriodo[i].periodos = periodos.map(b => ({...b}));
+       a.periodos = periodos.map(b => ({...b}));
       });
 
       return this.diaperiodoService.get();

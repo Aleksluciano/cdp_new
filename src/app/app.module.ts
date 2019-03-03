@@ -37,7 +37,10 @@ import {
   MatRadioModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MAT_DATE_LOCALE
+  MAT_DATE_LOCALE,
+  MatPaginatorModule,
+  MatTreeModule,
+  MatTooltipModule
 } from '@angular/material';
 import {
   BrowserAnimationsModule
@@ -64,6 +67,8 @@ import { DiasperiodosComponent } from './components/diasperiodos/diasperiodos.co
 import { VoluntariosComponent } from './components/voluntarios/voluntarios.component';
 import { AddVoluntarioComponent } from './components/voluntarios/add-voluntario/add-voluntario.component';
 import { EditVoluntarioComponent } from './components/voluntarios/edit-voluntario/edit-voluntario.component';
+import { InfoModalComponent } from './components/shared/info-modal/info-modal.component';
+import { ArvoresComponent } from './components/arvores/arvores.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +79,7 @@ import { EditVoluntarioComponent } from './components/voluntarios/edit-voluntari
     CircuitosComponent,
     AddCircuitoComponent,
     ConfirmModalComponent,
+    InfoModalComponent,
     EditCircuitoComponent,
     DiasComponent,
     EditDiaComponent,
@@ -87,7 +93,8 @@ import { EditVoluntarioComponent } from './components/voluntarios/edit-voluntari
     DiasperiodosComponent,
     VoluntariosComponent,
     AddVoluntarioComponent,
-    EditVoluntarioComponent
+    EditVoluntarioComponent,
+    ArvoresComponent
   ],
   imports: [
     BrowserModule,
@@ -124,6 +131,9 @@ import { EditVoluntarioComponent } from './components/voluntarios/edit-voluntari
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatPaginatorModule,
+    MatTreeModule,
+    MatTooltipModule,
     ///////////////
     NgxMaskModule.forRoot(),
 
@@ -136,6 +146,7 @@ import { EditVoluntarioComponent } from './components/voluntarios/edit-voluntari
   bootstrap: [AppComponent],
   entryComponents:
   [ConfirmModalComponent,
+    InfoModalComponent,
     AddCircuitoComponent,
     EditCircuitoComponent,
     AddDiaComponent,

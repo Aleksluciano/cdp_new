@@ -1,12 +1,14 @@
-import { Voluntario } from './../../models/voluntario.model';
+import { Voluntario, PeriodoSet, PerSet } from './../../models/voluntario.model';
 import { VoluntarioService } from './../../services/voluntario.service';
 import { AddVoluntarioComponent } from './add-voluntario/add-voluntario.component';
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
 import { EditVoluntarioComponent } from './edit-voluntario/edit-voluntario.component';
 import { CongregacaoService } from 'src/app/services/congregacao.service';
 import { DiaperiodoService } from 'src/app/services/diaperiodo.service';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-voluntarios',
@@ -14,6 +16,12 @@ import { DiaperiodoService } from 'src/app/services/diaperiodo.service';
   styleUrls: ['./voluntarios.component.scss']
 })
 export class VoluntariosComponent implements OnInit {
+
+  displayedColumns: string[] = []; // dados da coluna
+  dataSource = new MatTableDataSource(); // dados da tabela
+  selectedRowIndex = -1;
+  @ViewChild(MatPaginator) paginator: MatPaginator; // necessário para fazer o paginator
+  @ViewChild(MatSort) sort: MatSort;
 
   voluntarios = [];
   voluntarioRef = [];
@@ -24,7 +32,7 @@ export class VoluntariosComponent implements OnInit {
   congregacoes = [];
 
   diaPeriodo = [];
-  diaPeriodoSet = [];
+  diaPeriodoSet: PeriodoSet[] = [];
 
   constructor(
     private diaperiodoService: DiaperiodoService,
@@ -34,8 +42,19 @@ export class VoluntariosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
+    this.dataSource.sort = this.sort;
+    this.dataSource.sort.active = 'ini';
+    // traduz o paginator
+    this.paginator._intl.itemsPerPageLabel = 'Itens por página';
+    // atribui o paginatr para os dados
+    this.dataSource.paginator = this.paginator;
+
+    this.displayedColumns = ['Nome', 'Sexo', 'Congregação', 'Cidade', 'Email', 'Telefone', 'Ações'];
+
     this.voluntarioService.get().subscribe(data => {
       this.voluntarios = [...data];
+      this.dataSource.data = [...data];
       this.voluntarioRef = this.voluntarios.map(a => {
         return{ id: a.id, nomeDependente: a.nome, congregacao: a.congregacao };
       });
@@ -48,25 +67,24 @@ export class VoluntariosComponent implements OnInit {
 
       });
     });
-
     this.buildDiaPeriodo();
+
   }
 
   add() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.position = {
-      top: '0%'
-    };
+
 
     dialogConfig.data = {
       voluntarios: this.voluntarios,
       voluntarioRef: this.voluntarioRef,
-      dataCongs: this.dataCongs,
-      dataCong: this.dataCong,
+      dataCongs: [...this.dataCongs],
+      dataCong: {...this.dataCong},
       congregacoes: this.congregacoes,
-      diaPeriodo: this.diaPeriodo,
-      diaPeriodoSet: this.diaPeriodoSet,
+      diaPeriodoSet: [...this.diaPeriodoSet],
     };
+
+    dialogConfig.panelClass = 'my-full-screen-dialog';
 
     this.dialog
       .open(AddVoluntarioComponent, dialogConfig)
@@ -74,15 +92,15 @@ export class VoluntariosComponent implements OnInit {
       .subscribe(result => {
         if (result) {
           this.voluntarioService.create(result);
+
         }
       });
+
+
   }
 
   edit(data) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.position = {
-      top: '0%'
-    };
 
     dialogConfig.data = {
       voluntarios: this.voluntarios,
@@ -95,8 +113,10 @@ export class VoluntariosComponent implements OnInit {
       obj: data
     };
 
-    this.dialog
-      .open(EditVoluntarioComponent, dialogConfig)
+
+
+  this.dialog
+     .open(EditVoluntarioComponent, dialogConfig)
       .afterClosed()
       .subscribe(result => {
         if (result) {
@@ -113,7 +133,7 @@ export class VoluntariosComponent implements OnInit {
 
     dialogConfig.data = {
       message: `Deseja realmente remover o voluntario`,
-      item: `${data.name}`
+      item: `${data.nome}`
     };
 
     dialogConfig.position = {
@@ -141,7 +161,7 @@ export class VoluntariosComponent implements OnInit {
 
 
       this.diaPeriodo.forEach(a => {
-        const per = [];
+        const per: PerSet[] = [];
         a.periodos.forEach(b => {
           if (b.checked) {
           b.checked = false;
@@ -150,7 +170,7 @@ export class VoluntariosComponent implements OnInit {
           }
         });
         if (per.length > 0) {
-          const dispo  = {
+          const dispo: PeriodoSet = {
             dias: a.dias,
             periodos: [...per]
           };
@@ -162,4 +182,16 @@ export class VoluntariosComponent implements OnInit {
     });
 
     }
+
+
+    highlight(index) {
+      this.selectedRowIndex = index;
+    }
+
+
+      applyFilter(filterValue: string) {
+        if (filterValue) { this.dataSource.filter = filterValue.trim().toLowerCase(); }
+      }
+
+
 }

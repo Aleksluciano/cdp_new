@@ -1,5 +1,5 @@
 import { AuthService } from './../../services/auth-service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
@@ -12,16 +12,18 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
+  @Output() miniText = new EventEmitter<string>();
+
     constructor(
       private authService: AuthService,
-      private router: Router,
-      private dialog: MatDialog
+      private router: Router
       ) { }
 
     ngOnInit() {
       this.authService.getAuth().subscribe(auth => {
         if (auth) {
-          this.router.navigate(['/circuitos']);
+          this.router.navigate(['/dias']);
+          this.miniText.emit('Dias');
         }
       });
     }
@@ -31,7 +33,7 @@ export class LoginComponent implements OnInit {
   this.authService.login(this.email, this.password)
   .then(res => {
 
-    this.router.navigate(['/circuitos']);
+    this.router.navigate(['/dias']);
   })
   .catch(err => {
 

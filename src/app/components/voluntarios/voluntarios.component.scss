@@ -9,5 +9,40 @@ mat-list{
 
 
 #buttonAdd{
-margin-bottom: 10%;
-}
+  margin-bottom: 20px;
+  }
+
+  th{
+    font-size: .9em;
+    font-weight: bold;
+    color: black;
+    border: 1px solid blue;
+    background-color: #FDFFFC;
+    padding: 0 2px 5px;
+  }
+
+  td{
+
+    border: 1px solid blue;
+    padding: 0 2px 5px;
+    //min-width: 100px;
+  }
+
+  .mat-header-cell{
+    text-align: center;
+  }
+
+  .mat-cell, .matCellDef{
+    text-align: center;
+
+  }
+
+  table{
+    background-color: #D9F0FF;
+  }
+
+  .inline{
+    width: 100%;
+  }
+
+

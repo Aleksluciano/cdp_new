@@ -47,7 +47,6 @@ export class CircuitosComponent implements OnInit {
     };
 
     dialogConfig.data = {
-      message: `Deseja realmente remover o circuito`,
       obj: data
     };
 

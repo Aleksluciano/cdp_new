@@ -48,7 +48,6 @@ export class PeriodosComponent implements OnInit {
     };
 
     dialogConfig.data = {
-      message: `Deseja realmente remover o periodo`,
       obj: data
     };
 

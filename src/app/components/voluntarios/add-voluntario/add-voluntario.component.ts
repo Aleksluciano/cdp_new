@@ -2,6 +2,7 @@ import { Congregacao } from './../../../models/congregacao.model';
 import { Component, OnInit, Inject, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PeriodoSet } from 'src/app/models/voluntario.model';
 
 
 
@@ -14,8 +15,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class AddVoluntarioComponent implements OnInit {
   form: FormGroup;
 
-  cidades = ['Santo André', 'São Bernardo', 'São Caetano', 'Mauá', 'São Paulo'];
+  someDispoChecked = false;
+  semdispo = false;
 
+  cidades = ['Santo André', 'São Bernardo', 'São Caetano', 'Mauá', 'São Paulo'];
+  sexo = [{ id: 'M', nome: 'Masculino'}, { id: 'F', nome: 'Feminino'}];
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -35,23 +39,29 @@ export class AddVoluntarioComponent implements OnInit {
       dataCongs: [],
       dataCong: { circuito: string, secretario: string, contatoSecretario: string};
       congregacoes: [],
-      diaPeriodo: [],
-      diaPeriodoSet: []
+      diaPeriodoSet: PeriodoSet[]
      }
     ) {}
 
 
   ngOnInit() {
 
+    this.clearDispo();
+
+
     this.form = this.fb.group({
       nome: ['', Validators.required],
+      sexo: ['', Validators.required],
+      email: [''],
+      telefone: [''],
       cidade: ['', Validators.required],
       congregacao: ['', Validators.required],
       privilegio: ['1', Validators.required],
       observacao: [''],
       dependente: [''],
       nomeDependente: [''],
-      ultimavez: [null]
+      ultimavez: [null, Validators.required],
+      lider: ['']
       });
 
 
@@ -59,13 +69,40 @@ export class AddVoluntarioComponent implements OnInit {
 
   }
 
+
   onSubmit() {
     if (this.form.valid) {
       const user = this.form.value;
       user.disponibilidade = this.data.diaPeriodoSet;
+      user.semdispo = this.semdispo;
     this.dialogRef.close(user);
     }
   }
+
+
+verifySomeDispoChecked() {
+
+  let dispoPreenchida = false;
+   this.data.diaPeriodoSet.forEach(a => {
+     const preenchido = a.periodos.some(b => b.checked);
+     if (preenchido) {dispoPreenchida = true; }
+   });
+
+   if (dispoPreenchida) {this.someDispoChecked = true; } else { this.someDispoChecked = false; }
+
+}
+
+clearDispo() {
+
+  this.data.diaPeriodoSet.forEach((a, i) => {
+    a.periodos.forEach((b, i2) => {
+      b.checked = false;
+    });
+  });
+
+  this.someDispoChecked = false;
+
+}
 
   findDataCongregation(name) {
 
@@ -78,12 +115,13 @@ export class AddVoluntarioComponent implements OnInit {
 
 
   changeValidator(checked) {
-  if (!checked) {
-
+  if (checked) {
+    this.clearDispo();
     this.form.get('nomeDependente').setValidators([Validators.required]);
     this.form.get('nomeDependente').updateValueAndValidity();
 
   } else {
+    this.clearDispo();
     this.form.patchValue({nomeDependente: ''});
     this.form.get('nomeDependente').clearValidators();
     this.form.get('nomeDependente').updateValueAndValidity();
