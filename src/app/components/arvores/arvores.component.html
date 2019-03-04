@@ -12,6 +12,7 @@
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
           {{node.name }}
+
         </li>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
@@ -24,7 +25,8 @@
                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
               </mat-icon>
             </button>
-            {{node.name }}  <span [matBadge]="node.children.length || ''" matBadgeOverlap="false"></span>
+            {{node.name }}  <span [matBadge]="node.quant || ''" matBadgeOverlap="false"></span>
+            <h1>{{node.length}}</h1>
           </div>
           <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
             <ng-container matTreeNodeOutlet></ng-container>
