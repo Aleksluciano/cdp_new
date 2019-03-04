@@ -17,6 +17,16 @@
   border: 2px solid black;
 }
 
+.interno{
+  background-color: yellow;
+  min-width: 500px;
+  border: 2px solid black;
+  span{
+    margin-left:25px;
+    color:black
+  }
+}
+
 h3{
   margin-left:15px;
 }

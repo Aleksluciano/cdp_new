@@ -18,6 +18,8 @@ interface ArvoreNode {
 export class ArvoresComponent implements OnInit {
   voluntariosIndependentes = [];
   voluntariosComDependencia = [];
+  dias = {};
+  objectKeys = Object.keys;
 
 
   treeControl = new NestedTreeControl<ArvoreNode>(node => node.children);
@@ -40,19 +42,24 @@ export class ArvoresComponent implements OnInit {
 
   ngOnInit() {
     this.voluntarioService.get().subscribe(data => {
-      const vol = [...data];
+      const vol = data.map(a => ({...a}));
       const todosVoluntarios = [];
+      this.voluntariosIndependentes = [];
+      this.voluntariosComDependencia = [];
+      this.dias = {};
 
       this.total = vol.length;
 
       this.montaListaCompleta(vol, todosVoluntarios);
       this.montaListaComDependentes(todosVoluntarios);
 
+
       this.voluntariosIndependentes = todosVoluntarios.filter(
         a => !a.dependente
       );
       this.acheoTotal(this.voluntariosIndependentes);
 
+      this.dataSource.data = [];
       this.dataSource.data = [...this.voluntariosIndependentes];
 
 
@@ -69,19 +76,19 @@ export class ArvoresComponent implements OnInit {
   acheoTotal(a, x = 1) {
 
 
-    a.forEach((b,i) => {
+    a.forEach((b, i) => {
 
       if (b.children.length) {
         x += b.total;
 
-        let val = this.acheoTotal(b.children);
+        const val = this.acheoTotal(b.children);
 
         b.quant = val;
 
-      }else{
+      } else {
         x++;
       }
-      
+
        });
 
 
@@ -122,6 +129,7 @@ export class ArvoresComponent implements OnInit {
         dependente: a.dependente,
         nomeDependente: a.nomeDependente,
         congregacao: a.congregacao,
+        sexo: a.sexo,
         quant: 1,
         total: 1
       };
@@ -129,7 +137,23 @@ export class ArvoresComponent implements OnInit {
       if (a.dependente) {
         this.voluntariosComDependencia.push(obj);
       }
+
+      console.log(a.disponibilidade);
+      a.disponibilidade.forEach(b => {
+
+        const disponivel = b.periodos.some(c => c.checked);
+        if (disponivel) {
+        if (this.dias[b.dias]) {
+        this.dias[b.dias].count++;
+        } else {
+          this.dias[b.dias] = { name: [b.dias], count: 1};
+        }
+        }
+
+      });
     });
+
+
   }
 
   montaListaComDependentes(todosVoluntarios) {

@@ -1,7 +1,8 @@
 <div>
 <h1 fxFlex fxLayout="row" fxFlexAlign="left" >Árvore Organizacional</h1>
 </div>
-<div class="principal" >
+<div>
+<div class="principal" fxFlex=50>
 
     <h3>Total: {{ total }}</h3>
     <hr>
@@ -11,7 +12,7 @@
         <li class="mat-tree-node">
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
-          {{node.name }}
+         <span *ngIf="node.sexo == 'M'"></span> {{node.name }}
 
         </li>
       </mat-tree-node>
@@ -36,3 +37,17 @@
     </mat-tree>
 
   </div>
+  <div class="interno" fxFlex=50>
+      <h3>Disponibilidade</h3>
+      <hr>
+
+      
+   <div *ngFor="let key of objectKeys(dias)">
+     <br>
+     <span >
+    {{ key }}: {{ dias[key].count}}
+  </span></div>
+
+
+  </div>
+</div>

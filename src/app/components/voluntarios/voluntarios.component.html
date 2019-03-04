@@ -50,8 +50,8 @@
           <td class="actions" mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row}"
+    <tr class="lineTable" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr class="lineTable" mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row}"
       (click)="highlight(row)"></tr>
 
   </table>
