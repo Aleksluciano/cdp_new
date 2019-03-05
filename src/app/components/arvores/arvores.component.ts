@@ -21,7 +21,7 @@ export class ArvoresComponent implements OnInit {
   voluntariosComDependencia = [];
   dias = {};
   objectKeys = Object.keys;
-  keyss = {};
+  dispoDias = [];
 
   feminino = 0;
   masculino = 0;
@@ -56,6 +56,7 @@ export class ArvoresComponent implements OnInit {
       this.feminino = 0;
       this.masculino = 0;
       this.lider = 0;
+      this.dispoDias = [];
 
       this.total = vol.length;
 
@@ -193,7 +194,22 @@ export class ArvoresComponent implements OnInit {
 
     });
 
-  // for(let key in this.dias){
+
+// tslint:disable-next-line: forin
+   for(let key in this.dias){
+    this.dias[key];
+    let per = Object.entries(this.dias[key].periodo);
+    per.sort((a,b)=> {
+      if(a[0] < b[0]) { return -1; }
+      if(a[0] > b[0]) { return 1; }
+      return 0;
+    })
+    this.dispoDias.push({name: key, count: this.dias[key].count, per: per});
+
+
+   }
+
+   console.log(this.dispoDias)
 
   //   this.keyss = Object.keys(this.dias[key].periodo)
   //   .sort((a, b) => this.dias[b]- this.dias[a]);

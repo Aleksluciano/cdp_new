@@ -46,14 +46,25 @@ span{
   color:black
 }
 
-.lider{
-  position: absolute;
-  margin-left: 25px;
-}
+
 
 .dispo{
   color: black;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+
+
+}
+
+.lider{
+  position:absolute;
+  margin-left:25px;
+}
+
+.round{
+font-weight: bold;
+font-size: 1.3em;
+  border:2px solid red;
+
 
 
 }

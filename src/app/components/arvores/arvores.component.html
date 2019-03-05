@@ -4,7 +4,9 @@
 <div>
 <div class="principal" fxFlex=50>
 
-    <h3>Total: {{ total }}</h3> <span class="black">👦🏻 {{ masculino }}</span>
+    <h3>Total: {{ total }}</h3>
+
+    <span class="black">👦🏻 {{ masculino }}</span>
     <span class="black">👧🏼 {{ feminino}}</span>
     <span class="black">💡 {{  lider}}</span>
     <hr>
@@ -14,11 +16,12 @@
         <li class="mat-tree-node">
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
+          <span *ngIf="node.lider" class="lider">💡</span>
          <span *ngIf="node.sexo == 'M'" >👦🏻</span>
          <span *ngIf="node.sexo == 'F'" >👧🏼</span>
 
          {{node.name }}
-         <span *ngIf="node.lider" class="lider">💡</span>
+
         </li>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
@@ -31,11 +34,12 @@
                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
               </mat-icon>
             </button>
+            <span *ngIf="node.lider" class="lider">💡</span>
             <span *ngIf="node.sexo == 'M'" >👦🏻</span>
             <span *ngIf="node.sexo == 'F'" >👧🏼</span>
 
             {{node.name }}  <span [matBadge]="node.quant || ''" matBadgeOverlap="false"></span>
-            <span *ngIf="node.lider" class="lider">💡</span>
+
           </div>
           <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
             <ng-container matTreeNodeOutlet></ng-container>
@@ -50,15 +54,15 @@
       <hr>
 
 
-   <div *ngFor="let key of objectKeys(dias)">
+   <div *ngFor="let key of dispoDias">
      <br>
      <span class="dispo">
-    {{ key }}: {{ dias[key].count }}
+      <span class="round">{{ key.name }}: {{ key.count }}</span>
   </span>
-  <div *ngFor="let key2 of objectKeys(dias[key].periodo)">
+  <div *ngFor="let key2 of key.per">
     <br>
     <span class="dispo">
-   {{ key2 }}: {{ dias[key].periodo[key2].count}}
+   {{ key2[0] }}: <span class="round">{{ key2[1].count }}</span>
  </span>
 </div>
 </div>
