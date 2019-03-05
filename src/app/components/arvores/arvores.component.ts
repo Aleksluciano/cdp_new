@@ -5,6 +5,7 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { VoluntarioService } from 'src/app/services/voluntario.service';
 import { TooltipPosition } from '@angular/material';
 import { FormControl } from '@angular/forms';
+import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
 interface ArvoreNode {
   name: string;
   children?: [];
@@ -20,6 +21,11 @@ export class ArvoresComponent implements OnInit {
   voluntariosComDependencia = [];
   dias = {};
   objectKeys = Object.keys;
+  keyss = {};
+
+  feminino = 0;
+  masculino = 0;
+  lider = 0;
 
 
   treeControl = new NestedTreeControl<ArvoreNode>(node => node.children);
@@ -47,6 +53,9 @@ export class ArvoresComponent implements OnInit {
       this.voluntariosIndependentes = [];
       this.voluntariosComDependencia = [];
       this.dias = {};
+      this.feminino = 0;
+      this.masculino = 0;
+      this.lider = 0;
 
       this.total = vol.length;
 
@@ -130,15 +139,26 @@ export class ArvoresComponent implements OnInit {
         nomeDependente: a.nomeDependente,
         congregacao: a.congregacao,
         sexo: a.sexo,
+        lider: a.lider,
         quant: 1,
         total: 1
       };
+
       todosVoluntarios.push(obj);
       if (a.dependente) {
         this.voluntariosComDependencia.push(obj);
       }
 
-      console.log(a.disponibilidade);
+      if (a.sexo === 'M') {this.masculino++;
+      } else {
+        this.feminino++;
+      }
+
+      if (a.lider) {
+        this.lider++;
+      }
+
+
       a.disponibilidade.forEach(b => {
 
         const disponivel = b.periodos.some(c => c.checked);
@@ -146,14 +166,40 @@ export class ArvoresComponent implements OnInit {
         if (this.dias[b.dias]) {
         this.dias[b.dias].count++;
         } else {
-          this.dias[b.dias] = { name: [b.dias], count: 1};
+          this.dias[b.dias] = { count: 1, periodo: {} };
         }
+
+    }
+
+        b.periodos.forEach(c => {
+
+          if (c.checked && this.dias[b.dias]) {
+
+          if (this.dias[b.dias].periodo[c.name]) {
+            this.dias[b.dias].periodo[c.name].count++;
+          } else {
+            this.dias[b.dias].periodo[c.name] = { count: 1 };
+
+          }
+
+
+
         }
+
+        });
 
       });
+
+
     });
 
+  // for(let key in this.dias){
 
+  //   this.keyss = Object.keys(this.dias[key].periodo)
+  //   .sort((a, b) => this.dias[b]- this.dias[a]);
+
+  // }
+// console.log("keyss",this.dias[1].periodos)
   }
 
   montaListaComDependentes(todosVoluntarios) {
