@@ -17,8 +17,8 @@
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
           <span *ngIf="node.lider" class="lider">💡</span>
-         <span *ngIf="node.sexo == 'M'" >👦🏻</span>
-         <span *ngIf="node.sexo == 'F'" >👧🏼</span>
+         <span class="boneco" *ngIf="node.sexo == 'M'" >👦🏻</span>
+         <span class="boneco" *ngIf="node.sexo == 'F'" >👧🏼</span>
 
          {{node.name }}
 
@@ -35,8 +35,8 @@
               </mat-icon>
             </button>
             <span *ngIf="node.lider" class="lider">💡</span>
-            <span *ngIf="node.sexo == 'M'" >👦🏻</span>
-            <span *ngIf="node.sexo == 'F'" >👧🏼</span>
+            <span class="boneco" *ngIf="node.sexo == 'M'" >👦🏻</span>
+            <span class="boneco" *ngIf="node.sexo == 'F'" >👧🏼</span>
 
             {{node.name }}  <span [matBadge]="node.quant || ''" matBadgeOverlap="false"></span>
 

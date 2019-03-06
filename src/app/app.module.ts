@@ -12,6 +12,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 ///////////////////////////////////////////////////////////////////
 import { NgxMaskModule } from 'ngx-mask';
 /////////////////////////////////////////////////////////////////
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import {
   MatTableModule,
@@ -40,7 +41,8 @@ import {
   MAT_DATE_LOCALE,
   MatPaginatorModule,
   MatTreeModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatButtonToggleModule
 } from '@angular/material';
 import {
   BrowserAnimationsModule
@@ -69,6 +71,7 @@ import { AddVoluntarioComponent } from './components/voluntarios/add-voluntario/
 import { EditVoluntarioComponent } from './components/voluntarios/edit-voluntario/edit-voluntario.component';
 import { InfoModalComponent } from './components/shared/info-modal/info-modal.component';
 import { ArvoresComponent } from './components/arvores/arvores.component';
+import { GeracoesComponent } from './components/geracoes/geracoes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,7 +97,8 @@ import { ArvoresComponent } from './components/arvores/arvores.component';
     VoluntariosComponent,
     AddVoluntarioComponent,
     EditVoluntarioComponent,
-    ArvoresComponent
+    ArvoresComponent,
+    GeracoesComponent
   ],
   imports: [
     BrowserModule,
@@ -134,6 +138,8 @@ import { ArvoresComponent } from './components/arvores/arvores.component';
     MatPaginatorModule,
     MatTreeModule,
     MatTooltipModule,
+    MatButtonToggleModule,
+    DragDropModule,
     ///////////////
     NgxMaskModule.forRoot(),
 

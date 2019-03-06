@@ -1,0 +1,83 @@
+<div class="cockpit" >
+    <mat-form-field class='ano'>
+        <mat-select  [(ngModel)]="ano" (selectionChange)="findDaysOfMonth()">
+          <mat-option *ngFor="let c of anos" [value]="c">
+            {{c}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+<mat-form-field class='mes'>
+  <mat-select  [(ngModel)]="mes" (selectionChange)="findDaysOfMonth()">
+    <mat-option *ngFor="let c of meses" [value]="c">
+      {{c}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-button-toggle-group class="toggleDay" name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle *ngFor="let day of days" matTooltip={{day[1]}} (click)="setDay(day[0],day[1])">{{ day[0] }}</mat-button-toggle>
+  </mat-button-toggle-group>
+
+</div>
+
+
+<div >
+<div fxFlex=60>
+    <mat-radio-group  [(ngModel)]="choiceConfig">
+  <br>
+
+  <table *ngFor="let per of periodos[0]?.periodos;let i = index" >
+
+          <mat-radio-button [value]="i">Configurar</mat-radio-button>
+    <h1>{{vagasOcupadas(vagas[i])}}/{{ vagas[i].length}}</h1>
+    <tr>
+      <th class="buttonDelete"></th>
+    <th>{{ dayweek.toUpperCase() }}</th>
+    <th class="linhaCong">{{ day }}-{{ mes.substr(0,3) }}</th>
+  </tr>
+<tr>
+  <th class="buttonDelete"></th>
+    <th>{{ per.name }} </th>
+    <th class="linhaCong">CONGREGAÇÃO</th>
+  </tr>
+
+  <tr *ngFor="let vaga of vagas[i];let v = index" >
+      <td class="buttonDelete"> <button *ngIf="vaga.name" (click)="removeFromEscala(vaga,v)">-</button></td>
+      <td>{{vaga?.name || 'livre'}}<span class="lider" *ngIf="vaga.lider" >💡</span></td>
+      <td class="linhaCong">{{ vaga?.congregacao }}</td>
+     </tr>
+
+  </table>
+</mat-radio-group>
+</div>
+
+<div  class="secaoVoluntarios" fxFlex=30>
+    <mat-form-field class="inline" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="gappx">
+        <input class="inline" matInput (keyup)="applyFilter($event?.target?.value)" placeholder="Filtro">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+  <div class="secaoScroll" *ngFor="let vol of voluntarioRef;let v = index" >
+    <div>
+      <button [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="addToEscala(vol,v)">+</button>
+
+   <mat-card  fxFlex=95 class="listVoluntarios" >
+    <div fxLayout="row"  >
+      <div fxFlex=70>
+      <span class="lider" *ngIf="vol.lider" >💡</span>
+       <span class="boneco" *ngIf="vol.sexo == 'M'" >👦🏻</span>
+      <span class="boneco" *ngIf="vol.sexo == 'F'" >👧🏼</span>
+    {{ vol.name }}
+  </div>
+  <div fxFlex=30>
+    <span  class="bonecoDate">⏱️{{ vol.ultimavez['seconds'] * 1000 | date: 'dd/MM/yyyy' }}
+      </span>
+    </div>
+  </div>
+  </mat-card>
+</div>
+
+  </div>
+  </div>
+</div>
+

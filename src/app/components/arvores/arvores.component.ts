@@ -196,26 +196,20 @@ export class ArvoresComponent implements OnInit {
 
 
 // tslint:disable-next-line: forin
-   for(let key in this.dias){
-    this.dias[key];
-    let per = Object.entries(this.dias[key].periodo);
-    per.sort((a,b)=> {
-      if(a[0] < b[0]) { return -1; }
-      if(a[0] > b[0]) { return 1; }
+   for (const key in this.dias) {
+    // this.dias[key];
+    const per = Object.entries(this.dias[key].periodo);
+    per.sort((a, b) => {
+      if (a[0] < b[0]) { return -1; }
+      if (a[0] > b[0]) { return 1; }
       return 0;
-    })
+    });
     this.dispoDias.push({name: key, count: this.dias[key].count, per: per});
 
 
    }
 
-   console.log(this.dispoDias)
 
-  //   this.keyss = Object.keys(this.dias[key].periodo)
-  //   .sort((a, b) => this.dias[b]- this.dias[a]);
-
-  // }
-// console.log("keyss",this.dias[1].periodos)
   }
 
   montaListaComDependentes(todosVoluntarios) {

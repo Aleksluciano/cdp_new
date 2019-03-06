@@ -9,6 +9,7 @@ import { CongregacoesComponent } from './components/congregacoes/congregacoes.co
 import { DiasperiodosComponent } from './components/diasperiodos/diasperiodos.component';
 import { VoluntariosComponent } from './components/voluntarios/voluntarios.component';
 import { ArvoresComponent } from './components/arvores/arvores.component';
+import { GeracoesComponent } from './components/geracoes/geracoes.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: 'circuitos', component: CircuitosComponent, canActivate: [AuthGuard]},
   {path: 'congregacoes', component: CongregacoesComponent, canActivate: [AuthGuard]},
   {path: 'voluntarios', component: VoluntariosComponent, canActivate: [AuthGuard]},
-  {path: 'arvores', component: ArvoresComponent, canActivate: [AuthGuard]}
+  {path: 'arvores', component: ArvoresComponent, canActivate: [AuthGuard]},
+  {path: 'geracoes', component: GeracoesComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

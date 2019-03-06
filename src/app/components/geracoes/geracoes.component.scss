@@ -1,0 +1,94 @@
+.mes{
+  width: 100px;
+  margin-left: 20px;
+}
+
+.ano{
+  width: 70px;
+  margin-left: 20px;
+}
+
+.cockpit{
+  background-color: white;
+  border: 1px solid black;
+  width: 100%;
+  min-width: 800px;
+  min-height: 70px;
+}
+
+.toggleDay{
+  margin-left: 20px;
+}
+
+th{
+  background-color: lightgreen;
+  min-width: 180px;
+  border: 1px solid black;
+  padding: 0 2px 5px;
+  font-size: .7em;
+}
+
+td{
+
+  border: 1px solid black;
+  padding: 0 2px 5px;
+  min-width: 180px;
+  font-size: .7em;
+  //min-width: 100px;
+}
+
+
+.listVoluntarios{
+  margin-bottom: 2px;
+  padding: 10px 10px;
+  font-size: .8em;
+}
+
+.secaoVoluntarios{
+  margin-top: 20px;
+  position: fixed;
+  margin-left: 500px;
+  max-height: 350px;
+  overflow: auto;
+  min-width: 400px;
+  border: 3px solid black;
+}
+
+.addButton{
+
+
+}
+.linhaCong{
+  min-width: 120px;
+}
+
+table{
+  margin-bottom: 50px;
+
+}
+
+tr:first-of-type td {
+  padding-top: 10px;
+}
+
+.lider{
+  font-size: .7em;
+}
+
+
+.buttonDelete{
+
+ min-width: 20px;
+ border-right-width: 20px;
+ border-spacing: 60px;
+ border-color: #fafafa;
+ background-color:#fafafa;
+
+
+}
+.bonecoDate{
+  object-position: 20px;
+}
+button:disabled {
+  background: gray;
+}
