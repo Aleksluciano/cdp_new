@@ -51,6 +51,7 @@ export class EditVoluntarioComponent implements OnInit {
 
 
   ngOnInit() {
+    this.clearDispo();
     this.setDisponibilidade();
     this.verifySomeDispoChecked();
 
@@ -93,8 +94,12 @@ export class EditVoluntarioComponent implements OnInit {
       user.disponibilidade = this.data.diaPeriodoSet;
       user.semdispo = this.semdispo;
 
-      let nameD = this.data.voluntarioRef.find(a=> a['id'] === user.nomeDependente);
+      if (user.dependente) {
+        console.log(user);
+      const nameD = this.data.voluntarioRef.find(a => a['id'] === user.nomeDependente);
+      console.log(nameD);
       user.nomeDepString = nameD['nomeDependente'];
+      }
 
       this.dialogRef.close(user);
 

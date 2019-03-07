@@ -159,7 +159,41 @@ export class ArvoresComponent implements OnInit {
         this.lider++;
       }
 
+////////////////////////////////////////////////////////////////////////////////
+if (a.dependente) {
+  const user = vol.find(j => j.id === a.nomeDependente);
+user.disponibilidade.forEach(b => {
 
+  const disponivel = b.periodos.some(c => c.checked);
+  if (disponivel) {
+  if (this.dias[b.dias]) {
+  this.dias[b.dias].count++;
+  } else {
+    this.dias[b.dias] = { count: 1, periodo: {} };
+  }
+
+}
+
+  b.periodos.forEach(c => {
+
+    if (c.checked && this.dias[b.dias]) {
+
+    if (this.dias[b.dias].periodo[c.name]) {
+      this.dias[b.dias].periodo[c.name].count++;
+    } else {
+      this.dias[b.dias].periodo[c.name] = { count: 1 };
+
+    }
+
+
+
+  }
+
+  });
+
+});
+} else {
+////////////////////////////////////////////////////////////////////////////////
       a.disponibilidade.forEach(b => {
 
         const disponivel = b.periodos.some(c => c.checked);
@@ -191,7 +225,7 @@ export class ArvoresComponent implements OnInit {
 
       });
 
-
+    }
     });
 
 

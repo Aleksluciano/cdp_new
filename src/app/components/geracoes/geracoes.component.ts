@@ -127,7 +127,7 @@ findDaysOfMonth() {
 }
 
 setDay(day, dayweek) {
-  this.choiceConfig = 0;
+  this.choiceConfig = 100;
   this.showBox = true;
   this.dayweek = dayweek;
   this.day = day;
@@ -141,20 +141,47 @@ setDay(day, dayweek) {
 
   this.voluntarioRef = [];
   this.todos.map(a => ({...a})).forEach((b) => {
+    if (b.dependente) {
+      const user = this.todos.find(j => j.id === b.nomeDependente);
 
+      user.disponibilidade.forEach(c => {
+
+
+        if (c.dias === dayweek) {
+          if (this.choiceConfig === 100) {
+            if (c.periodos.some(d => d.checked)) {this.voluntarioRef.push(b); }
+          } else {
+        c.periodos.forEach(d => {
+           if (d.name === this.periodos[0].periodos[0].name && d.checked) {
+            this.voluntarioRef.push(b);
+           }
+        });
+      }
+    }
+
+    });
+    } else {
     b.disponibilidade.forEach(c => {
+
+
       if (c.dias === dayweek) {
 
+          if (this.choiceConfig === 100) {
+            if (c.periodos.some(d => d.checked)) {this.voluntarioRef.push(b); }
+          } else {
       c.periodos.forEach(d => {
          if (d.name === this.periodos[0].periodos[0].name && d.checked) {
           this.voluntarioRef.push(b);
          }
       });
     }
+    }
+
 
   });
-
+    }
 });
+
 
 }
 
@@ -190,8 +217,19 @@ buildDiaPeriodo() {
 
 
   addToEscala(vaga, index) {
+if (this.choiceConfig === 100) {
+  const dialogConfig = new MatDialogConfig();
 
-if (this.vagasOcupadas(this.vagas[this.choiceConfig]) < 3) {
+  dialogConfig.data = {
+    title: `Seleção de Período`,
+    message: `Para começar a escalar você deve primeiro selecionar qual período quer configurar!`
+  };
+
+  this.dialog.open(InfoModalComponent, dialogConfig);
+  return;
+}
+
+if (this.vagasOcupadas(this.vagas[this.choiceConfig]) < 14) {
 this.vagas[this.choiceConfig].splice(this.vagas[this.choiceConfig].length - 1, 1);
 this.vagas[this.choiceConfig].unshift(vaga);
 this.voluntarioRef.splice(index, 1);
@@ -230,6 +268,17 @@ this.todos.push({...vaga});
   vagasOcupadas(arrayVagas) {
    return arrayVagas.filter(a => a.name).length;
   }
+
+  vagasOcupadasGirl(arrayVagas) {
+    return arrayVagas.filter(a => a.name && a.sexo === 'F').length;
+   }
+
+   vagasOcupadasBoy(arrayVagas) {
+    return arrayVagas.filter(a => a.name && a.sexo === 'M').length;
+   }
+   disponiveis(arrayDisponiveis) {
+    return arrayDisponiveis.filter(a => !a.usado).length;
+   }
 
 
   applyFilter(filterValue: string) {
@@ -291,7 +340,23 @@ this.todos.push({...vaga});
 
     this.voluntarioRef = [];
     this.todos.map(a => ({...a})).forEach((b) => {
+      if (b.dependente) {
+        const user = this.todos.find(j => j.id === b.nomeDependente);
 
+        user.disponibilidade.forEach(c => {
+
+
+          if (c.dias === this.dayweek) {
+
+          c.periodos.forEach(d => {
+             if (d.name === pername  && d.checked) {
+              this.voluntarioRef.push(b);
+             }
+          });
+        }
+
+      });
+      } else {
       b.disponibilidade.forEach(c => {
         if (c.dias === this.dayweek) {
 
@@ -303,6 +368,7 @@ this.todos.push({...vaga});
       }
 
     });
+  }
 
   });
 

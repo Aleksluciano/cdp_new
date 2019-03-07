@@ -109,7 +109,7 @@ export class VoluntariosComponent implements OnInit {
       dataCong: this.dataCong,
       congregacoes: this.congregacoes,
       diaPeriodo: this.diaPeriodo,
-      diaPeriodoSet: this.diaPeriodoSet,
+      diaPeriodoSet: [...this.diaPeriodoSet],
       obj: data
     };
 

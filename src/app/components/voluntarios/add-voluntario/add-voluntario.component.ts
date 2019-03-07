@@ -76,8 +76,12 @@ export class AddVoluntarioComponent implements OnInit {
       user.disponibilidade = this.data.diaPeriodoSet;
       user.semdispo = this.semdispo;
 
-      let nameD = this.data.voluntarioRef.find(a=> a['id'] === user.nomeDependente);
+      if (user.dependente) {
+      const nameD = this.data.voluntarioRef.find(a => a['id'] === user.nomeDependente);
+      console.log(nameD);
       user.nomeDepString = nameD['nomeDependente'];
+
+      }
 
     this.dialogRef.close(user);
     }

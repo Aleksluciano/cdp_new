@@ -32,6 +32,10 @@
 
           <mat-radio-button [value]="i" (click)="changeVoluntariosInWeek(per.name)">Configurar</mat-radio-button>
     <h1>{{vagasOcupadas(vagas[i])}}/{{ vagas[i].length}}</h1>
+    <span >👦🏻{{vagasOcupadasBoy(vagas[i])}}</span>
+    &nbsp;
+    <span >👧🏼{{vagasOcupadasGirl(vagas[i])}}</span>
+
     </div>
     <tr>
       <th class="buttonDelete"></th>
@@ -70,7 +74,8 @@
               <button mat-icon-button (click)="sortByCong()">
                   <mat-icon>store_mall_directory</mat-icon>
                 </button>
-
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                 <h4>{{disponiveis(voluntarioRef)}}</h4>
             </div>
   <div class="secaoScroll" *ngFor="let vol of voluntarioRef;let v = index" >
     <div>
