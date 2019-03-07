@@ -28,9 +28,11 @@
   <br>
 
   <table *ngFor="let per of periodos[0]?.periodos;let i = index" >
+    <div fxFlex class="headerConfig">
 
-          <mat-radio-button [value]="i">Configurar</mat-radio-button>
+          <mat-radio-button [value]="i" (click)="changeVoluntariosInWeek(per.name)">Configurar</mat-radio-button>
     <h1>{{vagasOcupadas(vagas[i])}}/{{ vagas[i].length}}</h1>
+    </div>
     <tr>
       <th class="buttonDelete"></th>
     <th>{{ dayweek.toUpperCase() }}</th>
@@ -43,7 +45,7 @@
   </tr>
 
   <tr *ngFor="let vaga of vagas[i];let v = index" >
-      <td class="buttonDelete"> <button *ngIf="vaga.name" (click)="removeFromEscala(vaga,v)">-</button></td>
+      <td class="buttonDelete"> <button *ngIf="vaga.name && this.choiceConfig === i" (click)="removeFromEscala(vaga,v)">-</button></td>
       <td>{{vaga?.name || 'livre'}}<span class="lider" *ngIf="vaga.lider" >💡</span></td>
       <td class="linhaCong">{{ vaga?.congregacao }}</td>
      </tr>
@@ -52,24 +54,42 @@
 </mat-radio-group>
 </div>
 
-<div  class="secaoVoluntarios" fxFlex=30>
-    <mat-form-field class="inline" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="gappx">
+<div  *ngIf="showBox" class="secaoVoluntarios" fxFlex=30>
+    <div class="inline" fxLayout="row">
+    <mat-form-field fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
         <input class="inline" matInput (keyup)="applyFilter($event?.target?.value)" placeholder="Filtro">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
+
+          <button id="distanceButton" mat-icon-button (click)="sortByAlpha()">
+              <mat-icon >sort_by_alpha</mat-icon>
+            </button>
+            <button mat-icon-button (click)="sortByTime()">
+                <mat-icon>access_time</mat-icon>
+              </button>
+              <button mat-icon-button (click)="sortByCong()">
+                  <mat-icon>store_mall_directory</mat-icon>
+                </button>
+
+            </div>
   <div class="secaoScroll" *ngFor="let vol of voluntarioRef;let v = index" >
     <div>
-      <button [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="addToEscala(vol,v)">+</button>
+      <button *ngIf="!vol.dependente" [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="addToEscala(vol,v)"><mat-icon>add</mat-icon></button>
+      <button *ngIf="vol.dependente"  mat-stroked-button class="addButton" (click)="infoAboutDependente(vol,v)">  <mat-icon >airline_seat_recline_normal</mat-icon></button>
 
    <mat-card  fxFlex=95 class="listVoluntarios" >
     <div fxLayout="row"  >
       <div fxFlex=70>
       <span class="lider" *ngIf="vol.lider" >💡</span>
-       <span class="boneco" *ngIf="vol.sexo == 'M'" >👦🏻</span>
-      <span class="boneco" *ngIf="vol.sexo == 'F'" >👧🏼</span>
+       <span class="boneco" *ngIf="vol.sexo == 'M'" [matTooltip]="vol.nomeDepString">👦🏻</span>
+      <span class="boneco" *ngIf="vol.sexo == 'F'" [matTooltip]="vol.nomeDepString">👧🏼</span>
     {{ vol.name }}
   </div>
   <div fxFlex=30>
+      <span  class="congtext">{{ vol.congregacao }}
+        </span>
+      </div>
+  <div fxFlex=20>
     <span  class="bonecoDate">⏱️{{ vol.ultimavez['seconds'] * 1000 | date: 'dd/MM/yyyy' }}
       </span>
     </div>
@@ -78,6 +98,8 @@
 </div>
 
   </div>
+
   </div>
+
 </div>
 

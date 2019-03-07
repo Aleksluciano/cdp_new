@@ -11,6 +11,7 @@ export interface Voluntario {
   observacao?: string;
   dependente?: boolean;
   nomeDependente: any;
+  nomeDepString?: string;
   disponibilidade?: any;
   ultimavez?: Date;
   semdispo?: boolean;
