@@ -35,7 +35,9 @@
     <span >👦🏻{{vagasOcupadasBoy(vagas[i])}}</span>
     &nbsp;
     <span >👧🏼{{vagasOcupadasGirl(vagas[i])}}</span>
-
+   <div class="topSinal">
+    <span >💡{{vagasOcupadasLider(vagas[i])}}</span>
+  </div>
     </div>
     <tr>
       <th class="buttonDelete"></th>
@@ -80,7 +82,7 @@
   <div class="secaoScroll" *ngFor="let vol of voluntarioRef;let v = index" >
     <div>
       <button *ngIf="!vol.dependente" [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="addToEscala(vol,v)"><mat-icon>add</mat-icon></button>
-      <button *ngIf="vol.dependente"  mat-stroked-button class="addButton" (click)="infoAboutDependente(vol,v)">  <mat-icon >airline_seat_recline_normal</mat-icon></button>
+      <button *ngIf="vol.dependente"  [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="infoAboutDependente(vol,v)">  <mat-icon >airline_seat_recline_normal</mat-icon></button>
 
    <mat-card  fxFlex=95 class="listVoluntarios" >
     <div fxLayout="row"  >

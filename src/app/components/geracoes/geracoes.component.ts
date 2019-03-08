@@ -6,6 +6,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import { VoluntarioService } from 'src/app/services/voluntario.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { InfoModalComponent } from '../shared/info-modal/info-modal.component';
+import { findIndex } from 'rxjs/operators';
 
 @Component({
   selector: 'app-geracoes',
@@ -40,6 +41,7 @@ vagas = [];
 choiceConfig = 0;
 
 showBox = false;
+volDependente = [];
 
 ////////////////////////////////////////////////////////////////////
 
@@ -64,7 +66,11 @@ showBox = false;
     this.voluntarioService.get().subscribe(data => {
       this.voluntarios = [...data];
       this.voluntarioRef = this.voluntarios.map(a => {
-
+        if (a.dependente) {
+        this.volDependente.push({
+          nomeDependente: a.nomeDependente,
+          id: a.id});
+        }
         return {    id: a.id,
           name: a.nome,
           congregacao: a.congregacao,
@@ -97,6 +103,11 @@ showBox = false;
 }
 
 findDaysOfMonth() {
+  this.choiceConfig = 100;
+  this.showBox = false;
+  this.voluntarioRef = [];
+  this.vagas = [];
+  this.periodos = [];
   const semana = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
   const firstDay = new Date(parseInt(this.ano, 10), this.meses.indexOf(this.mes), 1);
   // const lastDay = new Date(parseInt(this.ano, 10), this.meses.indexOf(this.mes) + 1, 0);
@@ -141,6 +152,7 @@ setDay(day, dayweek) {
 
   this.voluntarioRef = [];
   this.todos.map(a => ({...a})).forEach((b) => {
+    b.usado = false;
     if (b.dependente) {
       const user = this.todos.find(j => j.id === b.nomeDependente);
 
@@ -229,10 +241,40 @@ if (this.choiceConfig === 100) {
   return;
 }
 
+const encontreDependentes = this.volDependente.filter(a => a.nomeDependente === vaga.id);
+if ((encontreDependentes.length > 0) && ((encontreDependentes.length + 1 + this.vagasOcupadas(this.vagas[this.choiceConfig])) >= 14)) {
+  const dialogConfig = new MatDialogConfig();
+
+  dialogConfig.data = {
+    title: `Limite de período`,
+    message: `A quantidade de irmãos juntos ultrapassa o limite para o período!`
+  };
+
+  this.dialog.open(InfoModalComponent, dialogConfig);
+  return;
+}
+
+this.processAdd(vaga);
+
+if (encontreDependentes.length > 0) {
+  encontreDependentes.forEach(a => {
+    const userdep = this.voluntarioRef.find(b => b.id === a.id);
+    if (userdep) {
+    this.processAdd(userdep);
+    }
+  });
+
+}
+
+  }
+
+processAdd(vaga) {
+
 if (this.vagasOcupadas(this.vagas[this.choiceConfig]) < 14) {
 this.vagas[this.choiceConfig].splice(this.vagas[this.choiceConfig].length - 1, 1);
 this.vagas[this.choiceConfig].unshift(vaga);
-this.voluntarioRef.splice(index, 1);
+
+this.voluntarioRef.splice(this.voluntarioRef.findIndex(a => a.id === vaga.id), 1);
 vaga.usado = true;
 this.voluntarioRef.push(vaga);
 const indexTodos = this.todos.findIndex(a => a.id === vaga.id);
@@ -249,19 +291,32 @@ this.todos.push({...vaga});
 
   this.dialog.open(InfoModalComponent, dialogConfig);
 }
+}
+
+  removeFromEscala(vaga) {
+
+  this.processRemove(vaga);
+
+  const encontreDependentes = this.volDependente.filter(a => a.nomeDependente === vaga.id);
+  if (encontreDependentes.length > 0) {
+
+    encontreDependentes.forEach(a => {
+      this.processRemove(a);
+    });
 
   }
 
+  }
 
-  removeFromEscala(vaga, index) {
+  processRemove(vaga) {
 
-    this.vagas[this.choiceConfig].splice(index, 1);
+    this.vagas[this.choiceConfig].splice(this.vagas[this.choiceConfig].findIndex(a => a.id === vaga.id), 1);
     this.vagas[this.choiceConfig].push('');
-
     const vol = this.todos.find(a => a.id === vaga.id);
     vol.usado = false;
     const user = this.voluntarioRef.find(a => a.id === vaga.id);
    user.usado = false;
+
 
   }
 
@@ -278,6 +333,10 @@ this.todos.push({...vaga});
    }
    disponiveis(arrayDisponiveis) {
     return arrayDisponiveis.filter(a => !a.usado).length;
+   }
+
+   vagasOcupadasLider(arrayDisponiveis) {
+    return arrayDisponiveis.filter(a => a.name && a.lider).length;
    }
 
 
