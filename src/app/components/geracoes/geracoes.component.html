@@ -16,7 +16,7 @@
 </mat-form-field>
 
 <mat-button-toggle-group class="toggleDay" name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle *ngFor="let day of days" matTooltip={{day[1]}} (click)="setDay(day[0],day[1])">{{ day[0] }}</mat-button-toggle>
+    <mat-button-toggle *ngFor="let day of days" matTooltip={{day[1]}} (click)="OnSetDay(day[0],day[1])">{{ day[0] }}</mat-button-toggle>
   </mat-button-toggle-group>
 
 </div>
@@ -30,13 +30,16 @@
   <table *ngFor="let per of periodos[0]?.periodos;let i = index" >
     <div fxFlex class="headerConfig">
 
-          <mat-radio-button [value]="i" (click)="changeVoluntariosInWeek(per.name)">Configurar</mat-radio-button>
+          <mat-radio-button [value]="i" (click)="OnChangeVoluntariosInWeek(per.name)">Configurar</mat-radio-button>
     <h1>{{vagasOcupadas(vagas[i])}}/{{ vagas[i].length}}</h1>
     <span >👦🏻{{vagasOcupadasBoy(vagas[i])}}</span>
     &nbsp;
     <span >👧🏼{{vagasOcupadasGirl(vagas[i])}}</span>
    <div class="topSinal">
     <span >💡{{vagasOcupadasLider(vagas[i])}}</span>
+  </div>
+  <div class="buttonAuto" *ngIf="pername === per.name">
+    <button  mat-button color="accent" (click)="autoGenerate()">AUTO</button>
   </div>
     </div>
     <tr>
@@ -63,7 +66,7 @@
 <div  *ngIf="showBox" class="secaoVoluntarios" fxFlex=30>
     <div class="inline" fxLayout="row">
     <mat-form-field fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
-        <input class="inline" matInput (keyup)="applyFilter($event?.target?.value)" placeholder="Filtro">
+        <input class="inline" [(ngModel)]="filterInput" matInput (keyup)="applyFilter($event?.target?.value)" placeholder="Filtro">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
 
@@ -81,7 +84,7 @@
             </div>
   <div class="secaoScroll" *ngFor="let vol of voluntarioRef;let v = index" >
     <div>
-      <button *ngIf="!vol.dependente" [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="addToEscala(vol,v)"><mat-icon>add</mat-icon></button>
+      <button *ngIf="!vol.dependente" [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="addToEscala(vol)"><mat-icon>add</mat-icon></button>
       <button *ngIf="vol.dependente"  [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="infoAboutDependente(vol,v)">  <mat-icon >airline_seat_recline_normal</mat-icon></button>
 
    <mat-card  fxFlex=95 class="listVoluntarios" >
@@ -92,6 +95,10 @@
       <span class="boneco" *ngIf="vol.sexo == 'F'" [matTooltip]="vol.nomeDepString">👧🏼</span>
     {{ vol.name }}
   </div>
+  <div fxFlex=5>
+    <span  class="congtext" *ngIf="vol.total > 0">{{ vol.total + 1 }}
+      </span>
+    </div>
   <div fxFlex=30>
       <span  class="congtext">{{ vol.congregacao }}
         </span>

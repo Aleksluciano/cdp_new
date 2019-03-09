@@ -20,7 +20,7 @@ return this.afAuth.authState.pipe(
     this.router.navigate(['/']);
     return false;
   } else {
-    console.log(auth, 'logado');
+
     return true;
 
   }

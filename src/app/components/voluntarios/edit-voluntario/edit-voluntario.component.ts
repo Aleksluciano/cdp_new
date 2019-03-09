@@ -95,9 +95,9 @@ export class EditVoluntarioComponent implements OnInit {
       user.semdispo = this.semdispo;
 
       if (user.dependente) {
-        console.log(user);
+
       const nameD = this.data.voluntarioRef.find(a => a['id'] === user.nomeDependente);
-      console.log(nameD);
+
       user.nomeDepString = nameD['nomeDependente'];
       }
 

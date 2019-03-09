@@ -43,6 +43,12 @@ choiceConfig = 0;
 showBox = false;
 volDependente = [];
 
+voluntarioRefPart = [];
+pername = '';
+filterInput = '';
+// audio = new Audio('/assets/click.mp3');
+// audio2 = new Audio('/assets/delete.mp3');
+
 ////////////////////////////////////////////////////////////////////
 
 
@@ -81,10 +87,16 @@ volDependente = [];
           lider: a.lider,
           ultimavez: a.ultimavez,
           disponibilidade: a.disponibilidade,
+          total: 0,
           usado: false
         };
 
     });
+
+    this.voluntarioRef.forEach(a=>{
+      let total = this.volDependente.filter(b=>b.nomeDependente === a.id);
+      a.total = total.length;
+    })
 
     this.voluntarioRef.sort((a, b) => {
       if (a.congregacao < b.congregacao) { return -1; }
@@ -137,12 +149,19 @@ findDaysOfMonth() {
 
 }
 
+OnSetDay(day, dayweek) {
+this.filterInput = '';
+this.setDay(day, dayweek);
+}
+
 setDay(day, dayweek) {
   this.choiceConfig = 100;
   this.showBox = true;
   this.dayweek = dayweek;
   this.day = day;
   this.periodos = this.diaPeriodoSet.filter(a => a.dias === dayweek);
+  this.pername = '';
+
 
   this.vagas = [];
   this.periodos[0].periodos.forEach(a => {
@@ -151,7 +170,7 @@ setDay(day, dayweek) {
   });
 
   this.voluntarioRef = [];
-  this.todos.map(a => ({...a})).forEach((b) => {
+  this.todos.forEach((b) => {
     b.usado = false;
     if (b.dependente) {
       const user = this.todos.find(j => j.id === b.nomeDependente);
@@ -174,7 +193,6 @@ setDay(day, dayweek) {
     });
     } else {
     b.disponibilidade.forEach(c => {
-
 
       if (c.dias === dayweek) {
 
@@ -228,7 +246,7 @@ buildDiaPeriodo() {
   }
 
 
-  addToEscala(vaga, index) {
+  addToEscala(vaga) {
 if (this.choiceConfig === 100) {
   const dialogConfig = new MatDialogConfig();
 
@@ -271,6 +289,8 @@ if (encontreDependentes.length > 0) {
 processAdd(vaga) {
 
 if (this.vagasOcupadas(this.vagas[this.choiceConfig]) < 14) {
+const audio = new Audio('/assets/click.mp3');
+  audio.play();
 this.vagas[this.choiceConfig].splice(this.vagas[this.choiceConfig].length - 1, 1);
 this.vagas[this.choiceConfig].unshift(vaga);
 
@@ -341,9 +361,19 @@ this.todos.push({...vaga});
 
 
   applyFilter(filterValue: string) {
-    this.voluntarioRef =  this.todos.map(a => ({...a}));
+
+    if (this.pername) {
+    this.changeVoluntariosInWeek(this.pername);
+    } else { this.setDay(this.day, this.dayweek); }
+
     if (filterValue && filterValue !== '') {
-    this.voluntarioRef = this.voluntarioRef.filter(a => a.name.toLowerCase().includes(filterValue.trim().toLowerCase()));
+    const filtroapply = this.voluntarioRef.filter(a => {
+
+      if (a.name.toLowerCase().includes(filterValue.trim().toLowerCase())) {return true; }
+      // const user = this.voluntarioRef.find(a => a.name.toLowerCase().includes(filterValue.trim().toLowerCase()));
+      // if (a.nomeDependente === user.id) {return true; }
+    });
+    this.voluntarioRef = filtroapply;
     }
 
 
@@ -395,10 +425,17 @@ this.todos.push({...vaga});
       .open(InfoModalComponent, dialogConfig);
   }
 
+  OnChangeVoluntariosInWeek(pername) {
+  this.filterInput = '';
+  this.changeVoluntariosInWeek(pername);
+  }
+
   changeVoluntariosInWeek(pername) {
 
+this.pername = pername;
     this.voluntarioRef = [];
     this.todos.map(a => ({...a})).forEach((b) => {
+
       if (b.dependente) {
         const user = this.todos.find(j => j.id === b.nomeDependente);
 
@@ -433,5 +470,29 @@ this.todos.push({...vaga});
 
   }
 
+  autoGenerate() {
 
+let index = 0;
+      const refreshIntervalId = setInterval(a => {
+
+        if (this.voluntarioRef[index].dependente) {index++; } else { index = 0; }
+
+        if (this.voluntarioRef[index].usado) {
+// tslint:disable-next-line: no-shadowed-variable
+        const existe = this.voluntarioRef.some(a => !a.usado);
+        if (!existe) {
+        clearInterval(refreshIntervalId);
+        }
+        } else {
+
+        if (!this.voluntarioRef[index].dependente) {
+        this.addToEscala(this.voluntarioRef[index]);
+        }
+
+        }
+
+      }, 300);
+
+
+    }
 }

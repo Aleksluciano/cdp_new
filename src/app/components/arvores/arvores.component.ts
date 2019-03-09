@@ -105,29 +105,7 @@ export class ArvoresComponent implements OnInit {
 
  return x;
   }
-  // acheoTotal(a) {
 
-  //   let x = 0;
-
-  //       a.forEach((b,i) => {
-  //   console.log(b.name, b.quant)
-  //   if(i === 0)x = 1;
-  //         if (b.children.length) {
-  //           x += b.total;
-
-  //           let val = this.acheoTotal(b.children);
-
-  //           b.quant = val;
-  //           console.log("222",b.name, b.quant,x)
-  //         }else{
-  //           x++;
-  //         }
-  //          });
-
-
-
-  //    return x;
-  //     }
 
   montaListaCompleta(vol, todosVoluntarios) {
     vol.forEach(a => {

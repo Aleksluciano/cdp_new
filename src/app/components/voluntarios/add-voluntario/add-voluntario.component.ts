@@ -78,7 +78,7 @@ export class AddVoluntarioComponent implements OnInit {
 
       if (user.dependente) {
       const nameD = this.data.voluntarioRef.find(a => a['id'] === user.nomeDependente);
-      console.log(nameD);
+
       user.nomeDepString = nameD['nomeDependente'];
 
       }
