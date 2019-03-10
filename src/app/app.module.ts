@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 /////////////////////////////////////////////////////////////////////
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -72,6 +73,7 @@ import { EditVoluntarioComponent } from './components/voluntarios/edit-voluntari
 import { InfoModalComponent } from './components/shared/info-modal/info-modal.component';
 import { ArvoresComponent } from './components/arvores/arvores.component';
 import { GeracoesComponent } from './components/geracoes/geracoes.component';
+import { RegisterComponent } from './components/register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -98,13 +100,15 @@ import { GeracoesComponent } from './components/geracoes/geracoes.component';
     AddVoluntarioComponent,
     EditVoluntarioComponent,
     ArvoresComponent,
-    GeracoesComponent
+    GeracoesComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ////////////////
     AngularFireModule.initializeApp(environment.firebase, 'cdpsistema'),
+    AngularFireFunctionsModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
     FlexLayoutModule,

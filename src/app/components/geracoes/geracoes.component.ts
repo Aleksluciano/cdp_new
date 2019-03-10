@@ -93,10 +93,10 @@ filterInput = '';
 
     });
 
-    this.voluntarioRef.forEach(a=>{
-      let total = this.volDependente.filter(b=>b.nomeDependente === a.id);
+    this.voluntarioRef.forEach(a => {
+      const total = this.volDependente.filter(b => b.nomeDependente === a.id);
       a.total = total.length;
-    })
+    });
 
     this.voluntarioRef.sort((a, b) => {
       if (a.congregacao < b.congregacao) { return -1; }
@@ -479,15 +479,19 @@ let index = 0;
 
         if (this.voluntarioRef[index].usado) {
 // tslint:disable-next-line: no-shadowed-variable
-        const existe = this.voluntarioRef.some(a => !a.usado);
+        const existe = this.voluntarioRef.some(a => !a.usado && !a.dependente);
         if (!existe) {
         clearInterval(refreshIntervalId);
-        }
+        } else {
+          const user = this.voluntarioRef[this.voluntarioRef.findIndex(a => !a.usado && !a.dependente)];
+            this.addToEscala(user);
+          }
         } else {
 
         if (!this.voluntarioRef[index].dependente) {
         this.addToEscala(this.voluntarioRef[index]);
         }
+
 
         }
 
