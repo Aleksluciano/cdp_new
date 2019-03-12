@@ -1,7 +1,8 @@
 import { AuthService } from './../../services/auth-service.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input} from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { map, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,9 @@ import { MatDialog } from '@angular/material';
 export class LoginComponent implements OnInit {
   email: string;
   password: string;
+  sub: Subscription;
 
-  @Output() miniText = new EventEmitter<string>();
+  
 
     constructor(
       private authService: AuthService,
@@ -20,13 +22,22 @@ export class LoginComponent implements OnInit {
       ) { }
 
     ngOnInit() {
-      this.authService.getAuth().subscribe(auth => {
-        if (auth) {
+
+      this.authService.userB.subscribe(user => {
+        if (user) {
+        if (user.role.admin) {
           this.router.navigate(['/dias']);
-          this.miniText.emit('Dias');
-        }
+             } else if (user.role.user) {
+              this.router.navigate(['/perfil']);
+            } else {
+              this.router.navigate(['/']);
+            }
+          }
       });
-    }
+
+  }
+
+
 
     onSubmit() {
 

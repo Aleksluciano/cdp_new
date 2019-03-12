@@ -1,4 +1,4 @@
-import { Circuito } from 'src/app/models/circuito.model';
+import { Circuito } from '../../../models/circuito.model';
 import { Component, OnInit, HostListener, Inject, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';

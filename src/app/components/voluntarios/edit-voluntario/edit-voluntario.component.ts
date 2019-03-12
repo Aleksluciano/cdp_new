@@ -1,11 +1,11 @@
 import { PeriodoSet } from './../../../models/voluntario.model';
-import { Voluntario } from 'src/app/models/voluntario.model';
+import { Voluntario } from '../../../models/voluntario.model';
 import { Component, OnInit, HostListener, Inject, AfterViewChecked, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material';
 import { AddVoluntarioComponent } from '../add-voluntario/add-voluntario.component';
-import { VoluntarioService } from 'src/app/services/voluntario.service';
-import { Congregacao } from 'src/app/models/congregacao.model';
+import { VoluntarioService } from '../../../services/voluntario.service';
+import { Congregacao } from '../../../models/congregacao.model';
 import { ConfirmModalComponent } from '../../shared/confirm-modal/confirm-modal.component';
 import { InfoModalComponent } from '../../shared/info-modal/info-modal.component';
 

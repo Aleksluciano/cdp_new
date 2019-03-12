@@ -1,8 +1,8 @@
 import { Diaperiodo } from './../../models/diaperiodo.model';
 import { Component, OnInit } from '@angular/core';
-import { DiaperiodoService } from 'src/app/services/diaperiodo.service';
-import { DiaService } from 'src/app/services/dia.service';
-import { PeriodoService } from 'src/app/services/periodo.service';
+import { DiaperiodoService } from '../../services/diaperiodo.service';
+import { DiaService } from '../../services/dia.service';
+import { PeriodoService } from '../../services/periodo.service';
 import { flatMap, switchMap } from 'rxjs/operators';
 
 

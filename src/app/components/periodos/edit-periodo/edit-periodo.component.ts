@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AddPeriodoComponent } from '../add-periodo/add-periodo.component';
-import { Periodo } from 'src/app/models/periodo.model';
+import { Periodo } from '../../../models/periodo.model';
 
 @Component({
   selector: 'app-edit-periodo',

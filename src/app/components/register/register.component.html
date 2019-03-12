@@ -1,35 +1,59 @@
-<div fxLayout="row" fxLayoutAlign="center center" class="row-height">
-  <mat-card>
 
-    <mat-card-title class="inline">
-      <!-- <h3 class="inline">
-          <span class="inline">
-              <mat-icon class="inline">lock</mat-icon>
-            </span>
-        CDP Sistema<span class="inline"> Login</span>
-      </h3> -->
-    </mat-card-title>
-    <br>
-    <br>
-    <mat-card-content fxLayout="column">
-      <div>
-        <form (ngSubmit)="onSubmit()" style="width: 100%">
-          <div>
-            <mat-form-field>
-              <input type="email" name="email" [(ngModel)]="email" matInput placeholder="Email" required>
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <input type="password" name="password" [(ngModel)]="password" matInput placeholder="Password" required>
-            </mat-form-field>
-          </div>
-          <button mat-raised-button color="primary" (submit)="onSubmit()">Criar</button>
+<mat-form-field class="inline" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="gappx">
+    <input class="inline" matInput (keyup)="applyFilter($event?.target?.value)" placeholder="Filtro">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+<mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+<table mat-table [dataSource]="dataSource" matSort  >
 
-        </form>
-      </div>
-    </mat-card-content>
+    <ng-container matColumnDef="Nome" sticky>
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Sexo">
+        <th mat-header-cell *matHeaderCellDef> Sexo </th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.sexo == 'M'" >👦🏻</span>
+          <span *ngIf="element.sexo == 'F'" >👧🏼</span>
+
+        </td>
+    </ng-container>
 
 
-  </mat-card>
-</div>
+    <ng-container matColumnDef="Email" >
+        <th mat-header-cell *matHeaderCellDef fxHide fxShow.gt-xs> Email </th>
+        <td mat-cell *matCellDef="let element" fxHide fxShow.gt-xs> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Registro" >
+      <th mat-header-cell *matHeaderCellDef fxHide fxShow.gt-xs> Registro </th>
+      <td mat-cell *matCellDef="let element" fxHide fxShow.gt-xs>
+        <span *ngIf="element.registro">🏁</span>
+        <span *ngIf="!element.registro">❌</span>
+        </td>
+  </ng-container>
+
+
+    <ng-container class="actions" matColumnDef="Ações" stickyEnd >
+        <th class="actions" mat-header-cell *matHeaderCellDef > Ações </th>
+        <td class="actions" mat-cell *matCellDef="let element">
+          <button [disabled]="element.registro" id="ativar" mat-icon-button color="primary" (click)="ativar(element)">
+            <mat-icon>touch_app</mat-icon>
+          </button>
+          <button [disabled]="!element.registro"  mat-raised-button color="accent" (click)="reset(element)">
+              reset
+            </button>
+            <button id="off" [disabled]="!element.registro"  mat-icon-button color="warn" (click)="turnOff(element)">
+                <mat-icon>power_off</mat-icon>
+              </button>
+
+          <td class="actions" mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+    <tr class="lineTable" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr class="lineTable" mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row}"
+      (click)="highlight(row)"></tr>
+
+  </table>

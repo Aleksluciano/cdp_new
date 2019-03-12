@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -9,8 +9,9 @@ export class NavbarComponent implements OnInit {
 
   @Output() closeSidenav = new EventEmitter<void>();
   @Output() logout = new EventEmitter<void>();
-  @Output() miniText = new EventEmitter<string>();
 
+  @Input() isAdmin: string;
+  @Input() isUser: string;
   constructor() { }
 
   ngOnInit() {
@@ -18,7 +19,7 @@ export class NavbarComponent implements OnInit {
 
   onClose(e) {
     this.closeSidenav.emit();
-    this.miniText.emit(e);
+
   }
 
   onLogout() {

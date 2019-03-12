@@ -2,7 +2,7 @@ import { Congregacao } from './../../../models/congregacao.model';
 import { Component, OnInit, Inject, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PeriodoSet } from 'src/app/models/voluntario.model';
+import { PeriodoSet } from '../../../models/voluntario.model';
 
 
 

@@ -5,8 +5,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
 import { EditVoluntarioComponent } from './edit-voluntario/edit-voluntario.component';
-import { CongregacaoService } from 'src/app/services/congregacao.service';
-import { DiaperiodoService } from 'src/app/services/diaperiodo.service';
+import { CongregacaoService } from '../../services/congregacao.service';
+import { DiaperiodoService } from '../../services/diaperiodo.service';
 import { Observable } from 'rxjs';
 
 
@@ -190,7 +190,7 @@ export class VoluntariosComponent implements OnInit {
 
 
       applyFilter(filterValue: string) {
-        if (filterValue) { this.dataSource.filter = filterValue.trim().toLowerCase(); }
+       this.dataSource.filter = filterValue.trim().toLowerCase()
       }
 
 

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestoreDocument, AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Voluntario } from '../models/voluntario.model';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog, MatDialogConfig } from '@angular/material';
+import { AuthService } from './auth-service.service';
+import { InfoModalComponent } from '../components/shared/info-modal/info-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,10 @@ export class VoluntarioService {
   voluntario: Observable<Voluntario>;
 
   constructor(
+    private authService: AuthService,
     private snackBar: MatSnackBar,
     private afs: AngularFirestore,
+    private dialog: MatDialog,
 
     ) {
 
@@ -75,11 +79,27 @@ export class VoluntarioService {
    }
 
    delete(id: string) {
+   this.authService.pick(id)
+   .pipe(
+  take(1), )
+  .subscribe(a => {
+
+    if (!a) {
     this.voluntarioDoc = this.afs.doc(`voluntarios/${id}`);
     this.voluntarioDoc.delete().then(_ => {
       this.openSnackBar('Removido');
     });
+  } else {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.data = {
+      title: `Remoção Negada`,
+      message: `Voluntário está ativo na tela de 'Registro'. Para remover, primeiro desative o usuário!`
+    };
+
+    this.dialog.open(InfoModalComponent, dialogConfig);
+  }
+  });
    }
 
    openSnackBar(msg) {

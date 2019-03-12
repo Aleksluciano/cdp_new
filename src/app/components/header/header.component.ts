@@ -9,9 +9,11 @@ export class HeaderComponent implements OnInit {
 
   @Output() sidenavToggle = new EventEmitter<void>();
   @Output() logout = new EventEmitter<void>();
-  @Output() miniText = new EventEmitter<string>();
+
 
   @Input() loggedInUser: string;
+  @Input() isAdmin: string;
+  @Input() isUser: string;
 
 
   constructor() { }
@@ -27,9 +29,6 @@ export class HeaderComponent implements OnInit {
     this.logout.emit();
   }
 
- changeMiniHeader(e) {
-  this.miniText.emit(e);
 
- }
 
 }

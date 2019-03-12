@@ -1,33 +1,26 @@
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from './../services/auth-service.service';
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { CanActivate} from '@angular/router';
+import { Observable} from 'rxjs';
+import { map, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthGuard implements CanActivate {
+
   constructor(
-    
-    private router: Router,
-    private afAuth: AngularFireAuth
+    private authService: AuthService
   ) {}
 
-  canActivate(): Observable<boolean> {
-return this.afAuth.authState.pipe(
-  map(auth => {
-  if (!auth) {
-    this.router.navigate(['/']);
-    return false;
-  } else {
+  canActivate(): Observable<boolean> | boolean  {
 
-    return true;
-
-  }
-})
-);
-}
-
+    return this.authService.userB.pipe(
+                 map(user => user.role.admin),
+                 tap(authorized => {
+                    return authorized;
+                 }));
+                }
 
 }

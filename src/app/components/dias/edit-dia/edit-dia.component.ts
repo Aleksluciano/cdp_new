@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AddCircuitoComponent } from '../../circuitos/add-circuito/add-circuito.component';
-import { Dia } from 'src/app/models/dia.model';
+import { Dia } from '../../../models/dia.model';
 
 @Component({
   selector: 'app-edit-dia',

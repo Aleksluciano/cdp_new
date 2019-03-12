@@ -1,10 +1,10 @@
 import { Circuito } from './../../../models/circuito.model';
-import { Congregacao } from 'src/app/models/congregacao.model';
+import { Congregacao } from '../../../models/congregacao.model';
 import { Component, OnInit, HostListener, Inject, AfterViewChecked, AfterViewInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AddCongregacaoComponent } from '../add-congregacao/add-congregacao.component';
-import { CircuitoService } from 'src/app/services/circuito.service';
+import { CircuitoService } from '../../../services/circuito.service';
 
 @Component({
   selector: 'app-edit-congregacao',

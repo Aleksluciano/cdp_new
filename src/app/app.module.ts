@@ -48,7 +48,7 @@ import {
 import {
   BrowserAnimationsModule
 } from '@angular/platform-browser/animations';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SnackMessageComponent } from './components/snack-message/snack-message.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -74,6 +74,7 @@ import { InfoModalComponent } from './components/shared/info-modal/info-modal.co
 import { ArvoresComponent } from './components/arvores/arvores.component';
 import { GeracoesComponent } from './components/geracoes/geracoes.component';
 import { RegisterComponent } from './components/register/register.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,7 +102,8 @@ import { RegisterComponent } from './components/register/register.component';
     EditVoluntarioComponent,
     ArvoresComponent,
     GeracoesComponent,
-    RegisterComponent
+    RegisterComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

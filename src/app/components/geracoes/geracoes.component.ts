@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DiaService } from 'src/app/services/dia.service';
-import { DiaperiodoService } from 'src/app/services/diaperiodo.service';
+import { DiaService } from './../../services/dia.service';
+import { DiaperiodoService } from './../../services/diaperiodo.service';
 import { PeriodoSet, PerSet } from './../../models/voluntario.model';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import { VoluntarioService } from 'src/app/services/voluntario.service';
+import { VoluntarioService } from './../../services/voluntario.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { InfoModalComponent } from '../shared/info-modal/info-modal.component';
 import { findIndex } from 'rxjs/operators';

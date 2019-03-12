@@ -11,9 +11,11 @@ import { VoluntariosComponent } from './components/voluntarios/voluntarios.compo
 import { ArvoresComponent } from './components/arvores/arvores.component';
 import { GeracoesComponent } from './components/geracoes/geracoes.component';
 import { RegisterComponent } from './components/register/register.component';
+import { UserGuard } from './guards/user.guard';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
+  {path: 'perfil', component: PerfilComponent, canActivate: [UserGuard]},
   {path: 'dias', component: DiasComponent, canActivate: [AuthGuard]},
   {path: 'periodos', component: PeriodosComponent, canActivate: [AuthGuard]},
   {path: 'diasperiodos', component: DiasperiodosComponent, canActivate: [AuthGuard]},
@@ -22,7 +24,8 @@ const routes: Routes = [
   {path: 'voluntarios', component: VoluntariosComponent, canActivate: [AuthGuard]},
   {path: 'arvores', component: ArvoresComponent, canActivate: [AuthGuard]},
   {path: 'geracoes', component: GeracoesComponent, canActivate: [AuthGuard]},
-  {path: 'register', component: RegisterComponent, canActivate: [AuthGuard]}
+  {path: 'registros', component: RegisterComponent, canActivate: [AuthGuard]},
+  {path: '', component: LoginComponent},
 ];
 
 @NgModule({

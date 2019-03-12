@@ -1,19 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth-service.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy  {
   isLoggedIn: boolean;
   request: boolean;
   loggedInUser: string;
+  isAdmin: boolean;
+  isUser: boolean;
 
   title = 'cdp';
-  textMiniHeader = '';
+  sub: Subscription;
+
 
   constructor(
     private authService: AuthService,
@@ -21,26 +27,43 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getAuth().subscribe(auth => {
-      if (auth) {
-        this.isLoggedIn = true;
-        this.loggedInUser = auth.email;
-      } else {
-        this.isLoggedIn = false;
+this.request = false;
+this.isLoggedIn = false;
+this.sub = this.authService.userB.subscribe(user => {
+  if (user) {
+  if (user.role.admin || user.role.user) {
+  this.isLoggedIn = true;
+  this.loggedInUser = user.email;
+  this.isAdmin = user.role.admin;
+  this.isUser = user.role.user;
+  this.request = true;
+         } else {
+           this.isLoggedIn = false;
+           this.request = true;
+        }
+
       }
-        this.request = true;
-    });
+
+
+
+});
 
 
   }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe(); // <-------
+}
 
   onLogoutClick() {
+    this.request = false;
     this.isLoggedIn = false;
-    this.authService.logout();
+    this.isAdmin = false;
+    this.isUser = false;
     this.router.navigate(['/']);
+    this.authService.logout();
+
   }
 
-  changeMiniText(text) {
-    this.textMiniHeader = text;
-  }
+
 }

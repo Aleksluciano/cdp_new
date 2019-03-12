@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
 import { EditCongregacaoComponent } from './edit-congregacao/edit-congregacao.component';
-import { CircuitoService } from 'src/app/services/circuito.service';
+import { CircuitoService } from '../../services/circuito.service';
 
 @Component({
   selector: 'app-congregacoes',

@@ -1,13 +1,13 @@
 a {
   text-decoration: none;
   color: white;
-  font-size: 0.7em;
+  font-size: 0.9em;
 }
 
 a:hover:not(#userLogged),
 a:active:not(#userLogged) {
   color: lightgray;
-  font-size: 1em;
+  font-size: 1.0em;
 }
 
 a:focus{
@@ -16,17 +16,47 @@ a:focus{
   border: 2px solid red;
 }
 
-#sair{
-  margin-right: 20%
+.sair{
+  margin-right: 20%;
+  font-size: 0.9em;
+  color: white;
 }
 
 #userLogged{
   margin-right: 45px;
+  font-size: 0.7em;
+  margin-top: 7px;
+  color: white;
+}
+
+.item{
+  margin-left: 20px;
 }
 
 
+.mat-toolbar{
+  background-color: black;
+}
 
 
+h1 {
+  color: rgb(249, 244, 250);
+  text-shadow: 2px 2px 2px rgb(201, 196, 201);
+  border: 2px solid rgb(39, 57, 70);
+  background-color: black;
+  text-align: center;
+  margin-left: 25px;
 
+}
 
+.user{
+  color: white;
+}
 
+.geracao{
+  color: white;
+}
+
+.admin{
+  margin-top:6px;
+}

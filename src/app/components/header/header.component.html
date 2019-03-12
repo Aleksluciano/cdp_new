@@ -5,49 +5,42 @@
     </button>
   </div>
    <div>
-    <img src="assets/logo.png" style="width:100px; height:100px;">
+     <h1>CDP</h1>
+     <!-- <img src="assets/logo5.png" style="width:100px; height:65px; margin-top:10px;"> -->
   </div>
    <div fxFlex fxLayout fxLayoutAlign="flex-start" fxHide.lt-md class="item">
-    <ul fxLayout  fxLayoutGap="25px" class="navigation-items">
-      <li>
-         <a routerLink="/dias" (click)="changeMiniHeader($event.target.text)">Dias</a>
-      </li>
-      <li>
-          <a routerLink="/periodos" (click)="changeMiniHeader($event.target.text)">Períodos</a>
-       </li>
-       <li>
-        <a routerLink="/diasperiodos" (click)="changeMiniHeader($event.target.text)">DiasXPeríodos</a>
-      </li>
-      <li>
-        <a routerLink="/circuitos" (click)="changeMiniHeader($event.target.text)">Circuitos</a>
-      </li>
-      <li>
-        <a routerLink="/congregacoes" (click)="changeMiniHeader($event.target.text)">Congregações</a>
-      </li>
-      <li>
-        <a routerLink="/voluntarios" (click)="changeMiniHeader($event.target.text)">Voluntários</a>
-      </li>
-      <li>
-          <a routerLink="/arvores" (click)="changeMiniHeader($event.target.text)">Árvore</a>
-        </li>
-        <li>
-          <a routerLink="/geracoes" (click)="changeMiniHeader($event.target.text)">Geração</a>
-        </li>
-        <li>
-          <a routerLink="/register" (click)="changeMiniHeader($event.target.text)">Registro</a>
-        </li>
-    </ul>
+
+      <button  *ngIf="isUser" class="user" mat-menu-item routerLink="/perfil">Perfil</button>
+<div *ngIf="isAdmin" class="admin">
+        <button mat-button [matMenuTriggerFor]="menu">Setup</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/dias">Dias</button>
+          <button mat-menu-item routerLink="/periodos">Períodos</button>
+          <button mat-menu-item routerLink="/diasperiodos">DiasXPeríodos</button>
+          <button mat-menu-item routerLink="/circuitos">Circuitos</button>
+          <button mat-menu-item routerLink="/congregacoes">Congregações</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="menu2">Administração</button>
+        <mat-menu #menu2="matMenu">
+            <button mat-menu-item routerLink="/arvores">Árvore</button>
+            <button mat-menu-item routerLink="/voluntarios">Voluntários</button>
+            <button mat-menu-item routerLink="/registros">Registros</button>
+          </mat-menu>
+        </div>
+
+        <button *ngIf="isAdmin" class="geracao" mat-menu-item routerLink="/geracoes">Geração</button>
+
   </div>
-  <div>
+  <div fxFlex fxLayout fxLayoutAlign="flex-end">
 
-    <ul fxFlex fxLayout fxLayoutAlign="flex-end">
 
-        <a id="userLogged"  >{{ loggedInUser }}</a>
 
-      <li   fxHide.lt-md>
-          <a routerLink="/" (click)="onLogout()" id="sair">Sair</a>
-      </li>
-    </ul>
+        <span id="userLogged"  >{{ loggedInUser }}</span>
+        <div class="sair"  fxHide.lt-md>
+        <button class="sair" mat-menu-item routerLink="/" (click)="onLogout()">Sair</button>
+      </div>
+
+
   </div>
 </mat-toolbar>
 

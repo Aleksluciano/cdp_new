@@ -1,0 +1,15 @@
+
+<mat-card class="card" fxLayout="column">
+  <mat-card-header>
+    <mat-card-title>{{ voluntario?.nome }}</mat-card-title>
+    <mat-card-subtitle>Detalhes</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p ><span>Email:</span> {{ voluntario?.email }}</p>
+    <p><span>Telefone:</span> {{ voluntario?.telefone | mask:"(00) 00000-0000" }}</p>
+    <p><span>Sexo:</span> {{ voluntario?.sexo === 'M' ? 'Masculino' : 'Feminino'  }}</p>
+    <p><span>Congregação:</span> {{ voluntario?.congregacao }}</p>
+    <p><span>Cidade:</span> {{ voluntario?.cidade }}</p>
+  </mat-card-content>
+
+</mat-card>

@@ -1,15 +1,23 @@
-<app-login *ngIf="!isLoggedIn && request" (miniText)="changeMiniText($event)"></app-login>
+<app-login *ngIf="!isLoggedIn && request" ></app-login>
 
 <mat-sidenav-container *ngIf="isLoggedIn && request" autosize>
 
   <mat-sidenav #navbar role="navigation">
-    <app-navbar (closeSidenav)="navbar.close()" (logout)="onLogoutClick()" (miniText)="changeMiniText($event)">
+    <app-navbar
+    [isAdmin]="isAdmin"
+    [isUser]="isUser"
+    (closeSidenav)="navbar.close()"
+    (logout)="onLogoutClick()"  >
     </app-navbar>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <app-header [loggedInUser]="loggedInUser" (sidenavToggle)="navbar.toggle()" (logout)="onLogoutClick()" (miniText)="changeMiniText($event)"></app-header>
-    <p id="miniHeader"><span>{{ textMiniHeader }}</span></p>
+    <app-header
+    [isAdmin]="isAdmin"
+    [isUser]="isUser"
+    [loggedInUser]="loggedInUser"
+    (sidenavToggle)="navbar.toggle()" (logout)="onLogoutClick()" ></app-header>
+
     <main>
      <div id="pageSize" fxLayout="row" >
       <router-outlet></router-outlet>
