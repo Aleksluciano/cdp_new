@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { map, switchMap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog, MatDialogConfig } from '@angular/material';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirestoreCollection, AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { User } from '../models/user.model';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { InfoModalComponent } from '../components/shared/info-modal/info-modal.component';
 
 
 
@@ -24,6 +25,7 @@ export class AuthService {
   userB: BehaviorSubject<User> = new BehaviorSubject(null);
 
   constructor(
+    private dialog: MatDialog,
     private fns: AngularFireFunctions,
     private afs: AngularFirestore,
     private snackBar: MatSnackBar,
@@ -65,11 +67,11 @@ export class AuthService {
 
   getAuth() {
 
-    return this.afAuth.authState;
+    return this.afAuth;
   }
 
   logout() {
-    //this.userB.unsubscribe();
+    // this.userB.unsubscribe();
     this.afAuth.auth.signOut();
   }
 
@@ -176,5 +178,22 @@ export class AuthService {
       verticalPosition: 'top',
       panelClass: [classbar]
     }, );
+  }
+
+  updatePassword(pass) {
+    this.afAuth.auth.currentUser.updatePassword(pass).then(_ => {
+      this.openSnackBar('Atualizada!', 'green-snackbar');
+    }).catch(e => {
+      if (e.code === 'auth/requires-recent-login') {
+        const dialogConfig = new MatDialogConfig();
+
+  dialogConfig.data = {
+    title: `Faça o login novamente`,
+    message: `Muito tempo se passou desde o último login. Para mudar a senha é necessário fazer o login novamente!`
+  };
+
+  this.dialog.open(InfoModalComponent, dialogConfig);
+      }
+    });
   }
 }

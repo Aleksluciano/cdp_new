@@ -41,6 +41,9 @@
       <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Registros</span>
     </a>
   </div>
+  <a mat-list-item routerLink="/senha" *ngIf="isUser || isAdmin">
+    <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Senha</span>
+  </a>
     <mat-list-item>
       <button mat-icon-button (click)="onLogout()">
         <span class="nav-caption">Sair</span>

@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   password: string;
   sub: Subscription;
 
-  
+
 
     constructor(
       private authService: AuthService,
@@ -44,12 +44,9 @@ export class LoginComponent implements OnInit {
   this.authService.login(this.email, this.password)
   .then(res => {
 
-    this.router.navigate(['/dias']);
   })
   .catch(err => {
-
-    //
-
+    
   });
 
     }

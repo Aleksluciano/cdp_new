@@ -13,6 +13,8 @@ import { GeracoesComponent } from './components/geracoes/geracoes.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserGuard } from './guards/user.guard';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { SenhaComponent } from './components/senha/senha.component';
+import { SenhaGuard } from './guards/senha.guard';
 
 const routes: Routes = [
   {path: 'perfil', component: PerfilComponent, canActivate: [UserGuard]},
@@ -25,6 +27,7 @@ const routes: Routes = [
   {path: 'arvores', component: ArvoresComponent, canActivate: [AuthGuard]},
   {path: 'geracoes', component: GeracoesComponent, canActivate: [AuthGuard]},
   {path: 'registros', component: RegisterComponent, canActivate: [AuthGuard]},
+  {path: 'senha', component: SenhaComponent, canActivate: [SenhaGuard]},
   {path: '', component: LoginComponent},
 ];
 

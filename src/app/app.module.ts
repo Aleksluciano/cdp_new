@@ -75,6 +75,7 @@ import { ArvoresComponent } from './components/arvores/arvores.component';
 import { GeracoesComponent } from './components/geracoes/geracoes.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { SenhaComponent } from './components/senha/senha.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,7 +104,8 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     ArvoresComponent,
     GeracoesComponent,
     RegisterComponent,
-    PerfilComponent
+    PerfilComponent,
+    SenhaComponent
   ],
   imports: [
     BrowserModule,

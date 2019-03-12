@@ -10,8 +10,11 @@
   </div>
    <div fxFlex fxLayout fxLayoutAlign="flex-start" fxHide.lt-md class="item">
 
-      <button  *ngIf="isUser" class="user" mat-menu-item routerLink="/perfil">Perfil</button>
-<div *ngIf="isAdmin" class="admin">
+    <div class="user">
+      <a *ngIf="isUser"  class="user" routerLink="/perfil">Perfil</a>
+    </div>
+
+<div *ngIf="isAdmin" class="admin" fxFlex fxLayout="row">
         <button mat-button [matMenuTriggerFor]="menu">Setup</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item routerLink="/dias">Dias</button>
@@ -26,22 +29,21 @@
             <button mat-menu-item routerLink="/voluntarios">Voluntários</button>
             <button mat-menu-item routerLink="/registros">Registros</button>
           </mat-menu>
-        </div>
-
         <button *ngIf="isAdmin" class="geracao" mat-menu-item routerLink="/geracoes">Geração</button>
-
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="flex-end">
 
+  <div class="senha" *ngIf="isUser || isAdmin">
+      <a class="senha" routerLink="/senha">Senha</a>
+    </div>
 
-
+  <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
         <span id="userLogged"  >{{ loggedInUser }}</span>
         <div class="sair"  fxHide.lt-md>
-        <button class="sair" mat-menu-item routerLink="/" (click)="onLogout()">Sair</button>
+        <a class="sair" routerLink="/" (click)="onLogout()">Sair</a>
       </div>
-
-
   </div>
+</div>
+
 </mat-toolbar>
 
 
