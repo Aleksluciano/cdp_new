@@ -1,3 +1,4 @@
+import { ForgotpassComponent } from './components/forgotpass/forgotpass.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
@@ -17,6 +18,7 @@ import { SenhaComponent } from './components/senha/senha.component';
 import { SenhaGuard } from './guards/senha.guard';
 
 const routes: Routes = [
+  {path: '', component: LoginComponent},
   {path: 'perfil', component: PerfilComponent, canActivate: [UserGuard]},
   {path: 'dias', component: DiasComponent, canActivate: [AuthGuard]},
   {path: 'periodos', component: PeriodosComponent, canActivate: [AuthGuard]},
@@ -28,7 +30,7 @@ const routes: Routes = [
   {path: 'geracoes', component: GeracoesComponent, canActivate: [AuthGuard]},
   {path: 'registros', component: RegisterComponent, canActivate: [AuthGuard]},
   {path: 'senha', component: SenhaComponent, canActivate: [SenhaGuard]},
-  {path: '', component: LoginComponent},
+  {path: 'forgotpass', component: ForgotpassComponent},
 ];
 
 @NgModule({

@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy  {
   loggedInUser: string;
   isAdmin: boolean;
   isUser: boolean;
+  forgot: boolean;
 
   title = 'cdp';
   sub: Subscription;
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit() {
+this.forgot = false;
 this.request = false;
 this.isLoggedIn = false;
 this.sub = this.authService.userB.subscribe(user => {
@@ -65,5 +67,14 @@ this.sub = this.authService.userB.subscribe(user => {
 
   }
 
+  forgotPass() {
+    this.forgot = true;
+    this.router.navigate(['/forgotpass']);
+  }
+
+  backLogin() {
+    this.forgot = false;
+    this.router.navigate(['/']);
+  }
 
 }

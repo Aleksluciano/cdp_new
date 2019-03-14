@@ -1,0 +1,34 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="row-height">
+<mat-card>
+<mat-card-title>Redefinir senha</mat-card-title>
+<mat-card-subtitle>
+Preencha seu email abaixo e clique em enviar. Você receberá em sua caixa de email um link para redefinir sua senha.
+</mat-card-subtitle>
+<br>
+<br>
+<mat-card-content fxLayout="column">
+  <div>
+       <form (ngSubmit)="onSubmit()" style="width: 100%" #f="ngForm">
+         <div>
+           <mat-form-field>
+             <input
+             type="email"
+             name="email"
+             pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+             [(ngModel)]="email"
+              matInput
+              placeholder="Digite seu email" required>
+             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+
+           </mat-form-field>
+         </div>
+         <button [disabled]="f.invalid" mat-raised-button color="primary" (submit)="onSubmit()">Enviar</button>
+
+       </form>
+      </div>
+   </mat-card-content>
+   <br>
+   <br>
+   <a routerLink=""  (click)="gotoLogin()" >Voltar para Login!</a>
+  </mat-card>
+   </div>

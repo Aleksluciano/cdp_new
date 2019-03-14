@@ -13,13 +13,12 @@
     <p><span>Cidade:</span> {{ voluntario?.cidade }}</p>
   </mat-card-content>
 
-</mat-card>
-<h3>Disponibilidade: *</h3>
+  <mat-divider [inset]="true"></mat-divider>
+  <h3>Disponibilidade: *</h3>
 <div *ngIf="voluntario?.dependente && pronto">
     <h5>Disponibilidade dependente de {{ voluntario.nomeDepString }}</h5>
 </div>
 <div class="dispo" fxLayout="row" fxLayout.lt-sm="column" *ngIf="!voluntario?.dependente && pronto">
-
   <mat-card *ngFor="let obj of diaPeriodoSet" id="listaDiaPeriodo" fxLayout="row">
     <div>
       <h3>{{ obj.dias }}</h3>
@@ -34,6 +33,7 @@
     </div>
   </mat-card>
   <button type="button" mat-raised-button color="primary" (click)="save()">Salvar</button>
-</div>
 
+</div>
+</mat-card>
 </div>

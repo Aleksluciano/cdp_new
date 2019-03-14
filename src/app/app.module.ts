@@ -1,3 +1,5 @@
+import { InfoRegisterComponent } from './components/register/info-register.component';
+import { ForgotpassComponent } from './components/forgotpass/forgotpass.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -76,6 +78,7 @@ import { GeracoesComponent } from './components/geracoes/geracoes.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { SenhaComponent } from './components/senha/senha.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -105,8 +108,11 @@ import { SenhaComponent } from './components/senha/senha.component';
     GeracoesComponent,
     RegisterComponent,
     PerfilComponent,
-    SenhaComponent
+    SenhaComponent,
+    ForgotpassComponent,
+    InfoRegisterComponent
   ],
+  exports:[ForgotpassComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -171,6 +177,7 @@ import { SenhaComponent } from './components/senha/senha.component';
     EditCongregacaoComponent,
     AddVoluntarioComponent,
     EditVoluntarioComponent,
+    InfoRegisterComponent,
   ]
 })
 export class AppModule { }

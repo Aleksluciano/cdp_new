@@ -59,7 +59,11 @@ export class AuthService {
         resolve(userData);
       },
       err => {
+        if (err.code === 'auth/user-not-found') {
+          this.openSnackBar('Email inexistente ou não ativado no sistema!', 'red-snackbar');
+        } else {
         this.openSnackBar('Credenciais inválidas!', 'red-snackbar');
+        }
         reject(err);
       });
     });
@@ -196,4 +200,17 @@ export class AuthService {
       }
     });
   }
+
+  forgotPassword(email: string) {
+
+    this.afAuth.auth.languageCode = 'pt-BR'; // set with string
+    this.afAuth.auth.sendPasswordResetEmail(email).then(result => {
+      this.openSnackBar('Email de redefinição enviado!', 'green-snackbar');
+    }).catch(error => {
+      if (error.code === 'auth/user-not-found') {
+        this.openSnackBar('Email inexistente ou não ativado no sistema!', 'red-snackbar');
+      }
+    });
+  }
+
 }

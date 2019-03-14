@@ -1,8 +1,7 @@
 import { AuthService } from './../../services/auth-service.service';
-import { Component, OnInit, OnDestroy, Input} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-login',
@@ -12,8 +11,8 @@ import { Subscription } from 'rxjs';
 export class LoginComponent implements OnInit {
   email: string;
   password: string;
-  sub: Subscription;
 
+@Output() forgot = new EventEmitter<void>();
 
 
     constructor(
@@ -24,13 +23,12 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
 
       this.authService.userB.subscribe(user => {
+        console.log("haha")
         if (user) {
         if (user.role.admin) {
           this.router.navigate(['/dias']);
              } else if (user.role.user) {
               this.router.navigate(['/perfil']);
-            } else {
-              this.router.navigate(['/']);
             }
           }
       });
@@ -43,12 +41,17 @@ export class LoginComponent implements OnInit {
 
   this.authService.login(this.email, this.password)
   .then(res => {
-
+    console.log("lelaaae",res);
   })
   .catch(err => {
-    
+    console.log("lele",err);
   });
 
+    }
+
+    gotoForgetPass(){
+
+      this.forgot.emit();
     }
 
 }

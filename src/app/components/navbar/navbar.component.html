@@ -1,7 +1,7 @@
 <mat-nav-list>
     <a mat-list-item routerLink="/perfil" *ngIf="isUser">
       <!-- <mat-icon>group</mat-icon> -->
-      <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Perfil</span>
+      <span class="nav-caption" (click)="onClose($event.target.innerHTML)" *ngIf="isUser">Perfil</span>
     </a>
     <div *ngIf="isAdmin">
     <a mat-list-item routerLink="/dias" >
@@ -41,12 +41,18 @@
       <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Registros</span>
     </a>
   </div>
-  <a mat-list-item routerLink="/senha" *ngIf="isUser || isAdmin">
-    <span class="nav-caption" (click)="onClose($event.target.innerHTML)">Senha</span>
+  <a mat-list-item routerLink="/senha"  *ngIf="isUser || isAdmin">
+      <!-- <mat-icon>group</mat-icon> -->
+      <span class="nav-caption" (click)="onClose($event.target.innerHTML)" >Senha</span>
+    </a>
+  <a mat-list-item (click)="onLogout()" *ngIf="isUser || isAdmin">
+    <!-- <mat-icon>group</mat-icon> -->
+    <span class="nav-caption" (click)="onClose($event.target.innerHTML)" >Sair</span>
   </a>
-    <mat-list-item>
+  <!-- </a> -->
+    <!-- <mat-list-item>
       <button mat-icon-button (click)="onLogout()">
         <span class="nav-caption">Sair</span>
       </button>
-    </mat-list-item>
+    </mat-list-item> -->
   </mat-nav-list>

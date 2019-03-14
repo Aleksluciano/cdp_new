@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth-service.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
+import { InfoModalComponent } from '../shared/info-modal/info-modal.component';
+import { InfoRegisterComponent } from './info-register.component';
 
 @Component({
   selector: 'app-register',
@@ -153,6 +155,17 @@ export class RegisterComponent implements OnInit {
 
     highlight(index) {
       this.selectedRowIndex = index;
+    }
+
+    onInfo(){
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.data = {
+        title: `Informações`,
+        message: ``
+      };
+
+      this.dialog.open(InfoRegisterComponent, dialogConfig);
     }
 
 }

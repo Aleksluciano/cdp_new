@@ -34,6 +34,8 @@ pronto = false;
       return this.diaperiodoService.get();
     })).
     subscribe(data => {
+      this.diaPeriodo = [];
+      this.diaPeriodoSet = [];
       this.diaPeriodo = data[0].registro;
       this.buildDiaPeriodo();
       this.setDisponibilidade();

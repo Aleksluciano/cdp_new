@@ -1,9 +1,13 @@
 
+<div fxLayout="column">
+<div fxLayout="row">
 <mat-form-field class="inline" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="gappx">
     <input class="inline" matInput (keyup)="applyFilter($event?.target?.value)" placeholder="Filtro">
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
-<mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+  <button class="info" mat-icon-button (click)="onInfo()"><mat-icon>info</mat-icon></button>
+</div>
+  <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
   </mat-paginator>
 <table mat-table [dataSource]="dataSource" matSort  >
 
@@ -57,3 +61,4 @@
       (click)="highlight(row)"></tr>
 
   </table>
+</div>

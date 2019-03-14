@@ -1,5 +1,5 @@
-<app-login *ngIf="!isLoggedIn && request" ></app-login>
-
+<app-login *ngIf="!isLoggedIn && request&& !forgot" (forgot)="forgotPass()"></app-login>
+<app-forgotpass *ngIf="!isLoggedIn && request && forgot" (login)="backLogin()"></app-forgotpass>
 <mat-sidenav-container *ngIf="isLoggedIn && request" autosize>
 
   <mat-sidenav #navbar role="navigation">

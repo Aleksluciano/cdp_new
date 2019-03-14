@@ -9,6 +9,9 @@ import { MAT_DIALOG_DATA } from '@angular/material';
   <div mat-dialog-content>
    <p class="mat-body-1">{{ data?.message }}</p>
   </div>
+  <div mat-dialog-content>
+  <p class="mat-body-1">{{ data?.message }}</p>
+ </div>
   <div mat-dialog-actions>
     <button mat-button [mat-dialog-close]="true">Ok</button>
   </div>

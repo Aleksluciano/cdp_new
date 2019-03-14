@@ -10,9 +10,10 @@
   </div>
    <div fxFlex fxLayout fxLayoutAlign="flex-start" fxHide.lt-md class="item">
 
-    <div class="user">
+    <!-- <div class="user">
       <a *ngIf="isUser"  class="user" routerLink="/perfil">Perfil</a>
-    </div>
+    </div> -->
+    <button mat-button routerLink="/perfil" *ngIf="isUser">Perfil</button>
 
 <div *ngIf="isAdmin" class="admin" fxFlex fxLayout="row">
         <button mat-button [matMenuTriggerFor]="menu">Setup</button>
@@ -29,17 +30,21 @@
             <button mat-menu-item routerLink="/voluntarios">Voluntários</button>
             <button mat-menu-item routerLink="/registros">Registros</button>
           </mat-menu>
-        <button *ngIf="isAdmin" class="geracao" mat-menu-item routerLink="/geracoes">Geração</button>
+          <button mat-button routerLink="/geracoes">Geração</button>
+          <button mat-button routerLink="/senha" *ngIf="isAdmin">Senha</button>
   </div>
-
-  <div class="senha" *ngIf="isUser || isAdmin">
-      <a class="senha" routerLink="/senha">Senha</a>
-    </div>
+  <button mat-button routerLink="/senha" *ngIf="isUser">Senha</button>
+  <!-- <button mat-button routerLink="/senha">Senha</button> -->
+  <!-- <div fxFlex fxLayout="row" class="senha" *ngIf="isUser || isAdmin">
+      <a style="color: white"routerLink="/senha">Senha</a>
+    </div> -->
 
   <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
-        <span id="userLogged"  >{{ loggedInUser }}</span>
-        <div class="sair"  fxHide.lt-md>
-        <a class="sair" routerLink="/" (click)="onLogout()">Sair</a>
+        <!-- <span id="userLogged"  >{{ loggedInUser }}</span> -->
+        <span id="userLogged" mat-button >{{ loggedInUser }}</span>
+        <div fxHide.lt-md>
+            <button mat-button routerLink="/" (click)="onLogout()">Sair</button>
+        <!-- <a class="sair" routerLink="/" (click)="onLogout()">Sair</a> -->
       </div>
   </div>
 </div>
