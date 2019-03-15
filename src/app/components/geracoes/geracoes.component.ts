@@ -260,7 +260,7 @@ if (this.choiceConfig === 100) {
 }
 
 const encontreDependentes = this.volDependente.filter(a => a.nomeDependente === vaga.id);
-if ((encontreDependentes.length > 0) && ((encontreDependentes.length + 1 + this.vagasOcupadas(this.vagas[this.choiceConfig])) >= 14)) {
+if ((vaga.total > 0) && ((vaga.total + 1 + this.vagasOcupadas(this.vagas[this.choiceConfig])) > 14)) {
   const dialogConfig = new MatDialogConfig();
 
   dialogConfig.data = {
@@ -274,7 +274,7 @@ if ((encontreDependentes.length > 0) && ((encontreDependentes.length + 1 + this.
 
 this.processAdd(vaga);
 
-if (encontreDependentes.length > 0) {
+if (vaga.total > 0) {
   encontreDependentes.forEach(a => {
     const userdep = this.voluntarioRef.find(b => b.id === a.id);
     if (userdep) {
@@ -311,7 +311,43 @@ this.todos.push({...vaga});
 
   this.dialog.open(InfoModalComponent, dialogConfig);
 }
+
+
+///////////////////////////////////////////
+console.log(this.roughSizeOfObject( this.vagas ), 'totaldoc', this.vagas);
+
 }
+
+roughSizeOfObject( object ) {
+const objectList = [];
+const stack = [ object ];
+let bytes = 0;
+
+while ( stack.length ) {
+    const value = stack.pop();
+
+    if ( typeof value === 'boolean' ) {
+        bytes += 4;
+    } else if ( typeof value === 'string' ) {
+        bytes += value.length * 2;
+    } else if ( typeof value === 'number' ) {
+        bytes += 8;
+    } else if
+    (
+        typeof value === 'object'
+        && objectList.indexOf( value ) === -1
+    ) {
+        objectList.push( value );
+
+        for ( const i in value ) {
+            stack.push( value[ i ] );
+        }
+    }
+}
+return bytes;
+}
+
+
 
   removeFromEscala(vaga) {
 
@@ -472,28 +508,16 @@ this.pername = pername;
 
   autoGenerate() {
 
-let index = 0;
       const refreshIntervalId = setInterval(a => {
+const total_vagas = this.vagasOcupadas(this.vagas[this.choiceConfig]);
+const user = this.voluntarioRef.find(u => !u.usado && !u.dependente && ((u.total + total_vagas) < 14));
+console.log('TCL: GeracoesComponent -> autoGenerate -> total_vagas', total_vagas);
 
-        if (this.voluntarioRef[index].dependente) {index++; } else { index = 0; }
-
-        if (this.voluntarioRef[index].usado) {
-// tslint:disable-next-line: no-shadowed-variable
-        const existe = this.voluntarioRef.some(a => !a.usado && !a.dependente);
-        if (!existe) {
+      if (!user) {
         clearInterval(refreshIntervalId);
         } else {
-          const user = this.voluntarioRef[this.voluntarioRef.findIndex(a => !a.usado && !a.dependente)];
-            this.addToEscala(user);
+          this.addToEscala(user);
           }
-        } else {
-
-        if (!this.voluntarioRef[index].dependente) {
-        this.addToEscala(this.voluntarioRef[index]);
-        }
-
-
-        }
 
       }, 300);
 

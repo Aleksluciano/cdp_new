@@ -18,19 +18,20 @@
 <mat-button-toggle-group class="toggleDay" name="fontStyle" aria-label="Font Style">
     <mat-button-toggle *ngFor="let day of days" matTooltip={{day[1]}} (click)="OnSetDay(day[0],day[1])">{{ day[0] }}</mat-button-toggle>
   </mat-button-toggle-group>
-
+  <button class="salvar" mat-raised-button>Salvar</button>
 </div>
 
 
-<div >
-<div fxFlex=60>
+
+
+<div fxLayout="row">
+<div fxFlex=40>
     <mat-radio-group  [(ngModel)]="choiceConfig">
   <br>
 
   <table *ngFor="let per of periodos[0]?.periodos;let i = index" >
     <div fxFlex class="headerConfig">
-
-          <mat-radio-button [value]="i" (click)="OnChangeVoluntariosInWeek(per.name)">Configurar</mat-radio-button>
+<mat-radio-button [value]="i" (click)="OnChangeVoluntariosInWeek(per.name)">Configurar</mat-radio-button>
     <h1>{{vagasOcupadas(vagas[i])}}/{{ vagas[i].length}}</h1>
     <span >👦🏻{{vagasOcupadasBoy(vagas[i])}}</span>
     &nbsp;
@@ -55,15 +56,15 @@
 
   <tr *ngFor="let vaga of vagas[i];let v = index" >
       <td class="buttonDelete"> <button *ngIf="vaga.name && this.choiceConfig === i" (click)="removeFromEscala(vaga,v)">-</button></td>
-      <td>{{vaga?.name || 'livre'}}<span class="lider" *ngIf="vaga.lider" >💡</span></td>
-      <td class="linhaCong">{{ vaga?.congregacao }}</td>
+      <td [ngClass]="{'blueRow': !vaga.name}">{{vaga?.name || 'livre'}}<span class="lider" *ngIf="vaga.lider" >💡</span></td>
+      <td [ngClass]="{'blueRow': !vaga.name}" class="linhaCong">{{ vaga?.congregacao }}</td>
      </tr>
 
   </table>
 </mat-radio-group>
 </div>
 
-<div  *ngIf="showBox" class="secaoVoluntarios" fxFlex=30>
+<div  *ngIf="showBox" class="secaoVoluntarios" fxFlex=60 >
     <div class="inline" fxLayout="row">
     <mat-form-field fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
         <input class="inline" [(ngModel)]="filterInput" matInput (keyup)="applyFilter($event?.target?.value)" placeholder="Filtro">
