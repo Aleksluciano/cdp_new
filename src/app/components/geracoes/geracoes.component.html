@@ -16,9 +16,9 @@
 </mat-form-field>
 
 <mat-button-toggle-group class="toggleDay" name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle *ngFor="let day of days" matTooltip={{day[1]}} (click)="OnSetDay(day[0],day[1])">{{ day[0] }}</mat-button-toggle>
+    <mat-button-toggle  [ngClass]="{'yel': day[2]}" *ngFor="let day of days" matTooltip={{day[1]}} (click)="onSetDay(day[0],day[1])">{{ day[0] }}</mat-button-toggle>
   </mat-button-toggle-group>
-  <button class="salvar" mat-raised-button>Salvar</button>
+  <button *ngIf="day" class="salvar" mat-raised-button (click)="save()">Salvar</button>
 </div>
 
 

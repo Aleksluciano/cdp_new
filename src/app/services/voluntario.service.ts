@@ -78,6 +78,16 @@ export class VoluntarioService {
 
    }
 
+   updateDate(id: string, ultimavez: Date) {
+    this.voluntarioDoc = this.afs.doc(`voluntarios/${id}`);
+     this.voluntarioDoc.update({ultimavez: ultimavez}).then(a => {
+       console.log(a);
+      });
+
+   }
+
+
+
    delete(id: string) {
    this.authService.pick(id)
    .pipe(

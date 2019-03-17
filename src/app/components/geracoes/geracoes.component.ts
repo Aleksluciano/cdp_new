@@ -6,7 +6,10 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import { VoluntarioService } from './../../services/voluntario.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { InfoModalComponent } from '../shared/info-modal/info-modal.component';
-import { findIndex } from 'rxjs/operators';
+import { findIndex, switchMap, take, find } from 'rxjs/operators';
+import { IndiceEscala } from '../../models/indiceescala.modela';
+import { EscalaService } from '../../services/escala.service';
+import { Escala } from '../../models/escala.model';
 
 @Component({
   selector: 'app-geracoes',
@@ -46,6 +49,7 @@ volDependente = [];
 voluntarioRefPart = [];
 pername = '';
 filterInput = '';
+
 // audio = new Audio('/assets/click.mp3');
 // audio2 = new Audio('/assets/delete.mp3');
 
@@ -53,6 +57,7 @@ filterInput = '';
 
 
   constructor(
+    private escalaService: EscalaService,
     private dialog: MatDialog,
     private diaService: DiaService,
     private diaperiodoService: DiaperiodoService,
@@ -62,20 +67,46 @@ filterInput = '';
 
     this.buildDiaPeriodo();
 
-    this.diaService.get().subscribe(data => {
+    //  this.diaService.get().subscribe(data => {
+    //   this.diasDoSistema = data;
+    //   this.findDaysOfMonth();
+    //  });
+
+    this.diaService.get().pipe(
+      switchMap(data => {
       this.diasDoSistema = data;
       this.findDaysOfMonth();
+
+      return this.escalaService.pickIndiceEscala(this.ano + this.mes).pipe(take(1));
+    }))
+    .subscribe(data2 => {
+
+    this.setIndiceEscala(data2);
+
     });
 
 
     ///////////////////////////////////////////////////
     this.voluntarioService.get().subscribe(data => {
-      this.voluntarios = [...data];
+      this.voluntarios = [...data].map(a => ({...a}));
+      this.volDependente = [];
+      this.voluntarioRef = [];
+
+      let compareday: Date;
+
+// tslint:disable-next-line: radix
+        compareday = new Date(parseInt(this.ano), parseInt(this.meses.indexOf(this.mes).toString()), parseInt(this.day));
+
       this.voluntarioRef = this.voluntarios.map(a => {
         if (a.dependente) {
         this.volDependente.push({
           nomeDependente: a.nomeDependente,
           id: a.id});
+        }
+
+        if (this.day) {
+        const dif = this.diffDaysCalc(compareday, new Date(a.ultimavez['seconds'] * 1000));
+        if (dif < 31) {a.usado = true; }
         }
         return {    id: a.id,
           name: a.nome,
@@ -83,7 +114,7 @@ filterInput = '';
           sexo: a.sexo,
           dependente: a.dependente,
           nomeDependente: a.nomeDependente,
-          nomeDepString: a.nomeDepString,
+          nomeDepString: a.nomeDepString || '',
           lider: a.lider,
           ultimavez: a.ultimavez,
           disponibilidade: a.disponibilidade,
@@ -106,6 +137,11 @@ filterInput = '';
 
     this.voluntarioRef.sort((a, b) => (a.ultimavez['seconds'] * 1000) - (b.ultimavez['seconds'] * 1000));
     this.todos = this.voluntarioRef.map(a => ({...a}));
+
+    if (this.day) {
+    this.onSetDay(this.day, this.dayweek);
+    }
+
   });
 
 
@@ -120,6 +156,7 @@ findDaysOfMonth() {
   this.voluntarioRef = [];
   this.vagas = [];
   this.periodos = [];
+  this.day = '';
   const semana = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
   const firstDay = new Date(parseInt(this.ano, 10), this.meses.indexOf(this.mes), 1);
   // const lastDay = new Date(parseInt(this.ano, 10), this.meses.indexOf(this.mes) + 1, 0);
@@ -139,7 +176,7 @@ findDaysOfMonth() {
 
     if (nameDayExist) {
       day = tomorrow.getDate();
-      this.days.push([day, semana[day_week]]);
+      this.days.push([day, semana[day_week], false]);
 
     }
 
@@ -147,9 +184,24 @@ findDaysOfMonth() {
   }
 
 
+this.escalaService.pickIndiceEscala(this.ano + this.mes)
+.pipe(take(1))
+.subscribe(data2 => {
+  this.setIndiceEscala(data2);
+  });
+
 }
 
-OnSetDay(day, dayweek) {
+
+      setIndiceEscala(data2) {
+      if (data2) {
+      this.days.forEach(a => {
+        a[2] = data2.dias.find(b => b.dia === a[0]).save;
+      });
+      }
+      }
+
+onSetDay(day, dayweek) {
 this.filterInput = '';
 this.setDay(day, dayweek);
 }
@@ -165,13 +217,19 @@ setDay(day, dayweek) {
 
   this.vagas = [];
   this.periodos[0].periodos.forEach(a => {
-    const vagas = new Array(14).fill('');
+    const vagas = new Array(14).fill({name: ''});
   this.vagas.push(vagas);
   });
 
   this.voluntarioRef = [];
+// tslint:disable-next-line: radix
+  const compareday = new Date(parseInt(this.ano), parseInt(this.meses.indexOf(this.mes).toString()), parseInt(this.day));
+
   this.todos.forEach((b) => {
-    b.usado = false;
+    const dif = this.diffDaysCalc(compareday, new Date(b.ultimavez['seconds'] * 1000));
+    if (dif < 31) {b.usado = true;
+    } else { b.usado = false;
+    }
     if (b.dependente) {
       const user = this.todos.find(j => j.id === b.nomeDependente);
 
@@ -180,8 +238,10 @@ setDay(day, dayweek) {
 
         if (c.dias === dayweek) {
           if (this.choiceConfig === 100) {
+// tslint:disable-next-line: no-shadowed-variable
             if (c.periodos.some(d => d.checked)) {this.voluntarioRef.push(b); }
           } else {
+// tslint:disable-next-line: no-shadowed-variable
         c.periodos.forEach(d => {
            if (d.name === this.periodos[0].periodos[0].name && d.checked) {
             this.voluntarioRef.push(b);
@@ -197,8 +257,10 @@ setDay(day, dayweek) {
       if (c.dias === dayweek) {
 
           if (this.choiceConfig === 100) {
+// tslint:disable-next-line: no-shadowed-variable
             if (c.periodos.some(d => d.checked)) {this.voluntarioRef.push(b); }
           } else {
+// tslint:disable-next-line: no-shadowed-variable
       c.periodos.forEach(d => {
          if (d.name === this.periodos[0].periodos[0].name && d.checked) {
           this.voluntarioRef.push(b);
@@ -212,6 +274,31 @@ setDay(day, dayweek) {
     }
 });
 
+
+
+const d = this.days.find(a => a[0] === this.day);
+const vaga = [];
+console.log('DAYYY', this.day, this.days);
+if (d && d[2]) {
+  this.escalaService.pick(this.ano + this.meses.indexOf(this.mes) + this.day).pipe(
+    take(1))
+  .subscribe(a => {
+console.log('ESCALA', a);
+     this.periodos = a.periodos;
+     a.vagas.forEach(b => {
+      const ar = [];
+      b.vg.forEach(c => {
+        const user = this.voluntarioRef.find(d => d.id === c.id);
+        if (user) {user.usado = true; }
+         ar.push(c);
+       });
+       vaga.push(ar);
+     });
+
+     this.vagas = vaga;
+
+    });
+}
 
 }
 
@@ -314,7 +401,7 @@ this.todos.push({...vaga});
 
 
 ///////////////////////////////////////////
-console.log(this.roughSizeOfObject( this.vagas ), 'totaldoc', this.vagas);
+// console.log(this.roughSizeOfObject( this.vagas ), 'totaldoc', this.vagas);
 
 }
 
@@ -377,7 +464,9 @@ return bytes;
   }
 
   vagasOcupadas(arrayVagas) {
+
    return arrayVagas.filter(a => a.name).length;
+
   }
 
   vagasOcupadasGirl(arrayVagas) {
@@ -511,7 +600,6 @@ this.pername = pername;
       const refreshIntervalId = setInterval(a => {
 const total_vagas = this.vagasOcupadas(this.vagas[this.choiceConfig]);
 const user = this.voluntarioRef.find(u => !u.usado && !u.dependente && ((u.total + total_vagas) < 14));
-console.log('TCL: GeracoesComponent -> autoGenerate -> total_vagas', total_vagas);
 
       if (!user) {
         clearInterval(refreshIntervalId);
@@ -523,4 +611,61 @@ console.log('TCL: GeracoesComponent -> autoGenerate -> total_vagas', total_vagas
 
 
     }
+
+    save() {
+
+  if (this.days.length) {
+      const daySave = [];
+
+      this.days.forEach(a => {
+      if (a[0] === this.day) {a[2] = true; }
+      daySave.push({dia: a[0], save: a[2]});
+      });
+
+      const indice: IndiceEscala = {
+        ano: this.ano,
+        mes: this.mes,
+        dias: daySave
+      };
+
+
+      // this.vagas[0][0].disponibilidade = null;
+      const vaga = [];
+      this.vagas.forEach((a, i) => {
+      const vg = [];
+        a.forEach((b, i) => {
+
+          vg.push(b);
+        });
+
+        vaga.push({vg});
+
+      });
+
+      const escala: Escala = {
+        ano: this.ano,
+        mes: this.meses.indexOf(this.mes).toString(),
+        dia: this.day,
+        periodos: this.periodos,
+        vagas: vaga
+      };
+
+
+
+
+      this.escalaService.createIndiceEscala(indice, escala);
+
+    }
+
+  }
+
+
+  diffDaysCalc(pdate1: Date, pdate2: Date) {
+    const date1 = new Date(pdate1);
+    const date2 = new Date(pdate2);
+    const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    if (diffDays > 700) { return 'Primeira vez'; }
+    return diffDays;
+  }
 }
