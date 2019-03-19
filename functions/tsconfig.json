@@ -6,12 +6,14 @@
     "outDir": "lib/functions",
     "sourceMap": true,
     "strict": true,
-    "target": "es2015",
+    "target": "es2017",
+    "lib": ["es2017"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
   },
   "compileOnSave": true,
   "include": [
     "src"
-  ]
+  ],
+
 }
