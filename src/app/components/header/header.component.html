@@ -4,53 +4,48 @@
       <mat-icon>menu</mat-icon>
     </button>
   </div>
-   <div>
-     <h1>CDP</h1>
-     <!-- <img src="assets/logo5.png" style="width:100px; height:65px; margin-top:10px;"> -->
+  <div>
+    <h1>CDP</h1>
+    <!-- <img src="assets/logo5.png" style="width:100px; height:65px; margin-top:10px;"> -->
   </div>
-   <div fxFlex fxLayout fxLayoutAlign="flex-start" fxHide.lt-md class="item">
+  <div fxFlex fxLayout fxLayoutAlign="flex-start" fxHide.lt-md class="item">
 
     <!-- <div class="user">
       <a *ngIf="isUser"  class="user" routerLink="/perfil">Perfil</a>
     </div> -->
     <button mat-button routerLink="/perfil" *ngIf="isUser">Perfil</button>
+    <button mat-button routerLink="/designacoes" *ngIf="isUser">Designações</button>
 
-<div *ngIf="isAdmin" class="admin" fxFlex fxLayout="row">
-        <button mat-button [matMenuTriggerFor]="menu">Setup</button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/dias">Dias</button>
-          <button mat-menu-item routerLink="/periodos">Períodos</button>
-          <button mat-menu-item routerLink="/diasperiodos">DiasXPeríodos</button>
-          <button mat-menu-item routerLink="/circuitos">Circuitos</button>
-          <button mat-menu-item routerLink="/congregacoes">Congregações</button>
-        </mat-menu>
-        <button mat-button [matMenuTriggerFor]="menu2">Administração</button>
-        <mat-menu #menu2="matMenu">
-            <button mat-menu-item routerLink="/arvores">Árvore</button>
-            <button mat-menu-item routerLink="/voluntarios">Voluntários</button>
-            <button mat-menu-item routerLink="/registros">Registros</button>
-          </mat-menu>
-          <button mat-button routerLink="/geracoes">Geração</button>
-          <button mat-button routerLink="/senha" *ngIf="isAdmin">Senha</button>
+    <div *ngIf="isAdmin" class="admin" fxFlex fxLayout="row">
+      <button mat-button [matMenuTriggerFor]="menu">Setup</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/dias">Dias</button>
+        <button mat-menu-item routerLink="/periodos">Períodos</button>
+        <button mat-menu-item routerLink="/diasperiodos">DiasXPeríodos</button>
+        <button mat-menu-item routerLink="/circuitos">Circuitos</button>
+        <button mat-menu-item routerLink="/congregacoes">Congregações</button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="menu2">Administração</button>
+      <mat-menu #menu2="matMenu">
+        <button mat-menu-item routerLink="/arvores">Árvore</button>
+        <button mat-menu-item routerLink="/voluntarios">Voluntários</button>
+        <button mat-menu-item routerLink="/registros">Registros</button>
+      </mat-menu>
+      <button mat-button routerLink="/geracoes">Geração</button>
+      <button mat-button routerLink="/senha" *ngIf="isAdmin">Senha</button>
+    </div>
+    <button mat-button routerLink="/senha" *ngIf="isUser">Senha</button>
+
   </div>
-  <button mat-button routerLink="/senha" *ngIf="isUser">Senha</button>
-  <!-- <button mat-button routerLink="/senha">Senha</button> -->
-  <!-- <div fxFlex fxLayout="row" class="senha" *ngIf="isUser || isAdmin">
-      <a style="color: white"routerLink="/senha">Senha</a>
-    </div> -->
 
   <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
-        <!-- <span id="userLogged"  >{{ loggedInUser }}</span> -->
-        <span id="userLogged" mat-button >{{ loggedInUser }}</span>
-        <div fxHide.lt-md>
-            <button mat-button routerLink="/" (click)="onLogout()">Sair</button>
-        <!-- <a class="sair" routerLink="/" (click)="onLogout()">Sair</a> -->
-      </div>
+
+    <span id="userLogged" mat-button>{{ loggedInUser }}</span>
+
+    <div fxHide.lt-md>
+      <button style="margin-right: 10px" mat-button routerLink="/" (click)="onLogout()">Sair</button>
+    </div>
+
   </div>
-</div>
 
 </mat-toolbar>
-
-
-
-

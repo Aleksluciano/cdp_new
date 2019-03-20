@@ -17,7 +17,12 @@ export class UserGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.authService.userB.pipe(
-      map(user => user.role.user),
+      map(user => {
+       if(user){
+         if(user.role.user)return true
+       }
+       return false
+      }),
       tap(authorized => {
          return authorized;
       }));

@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Escala } from '../models/escala.model';
 import { MatSnackBar } from '@angular/material';
+import { Led } from '../models/led.model';
 
 
 @Injectable({
@@ -23,6 +24,9 @@ export class EscalaService {
   escalas: Observable<Escala[]>;
   escala: Observable<Escala>;
 
+  ledsCollection: AngularFirestoreCollection<Led>;
+  leds: Observable<Led[]>;
+
   constructor(
     private snackBar: MatSnackBar,
     private afs: AngularFirestore,
@@ -34,6 +38,9 @@ export class EscalaService {
     ref => ref.orderBy('name', 'asc'));
 
     this.indiceEscalasCollection = this.afs.collection('indiceescalas');
+
+
+
    }
 
    get(): Observable<Escala[]> {
@@ -52,19 +59,31 @@ export class EscalaService {
     return this.escalas;
    }
 
+   getLeds(id): Observable<Led[]> {
+
+    this.leds = this.afs.collection('escalas').doc(id).collection('leds').snapshotChanges().
+    pipe(
+      map(changes => {
+      return changes.map(action => {
+        const data = action.payload.doc.data() as Led;
+
+        data.id = action.payload.doc.id;
+        return data;
+      });
+    }));
+
+    return this.leds;
+   }
+
    create(escala: Escala) {
-     console.log(escala);
+
      this.escalasCollection.doc(escala.ano + escala.mes + escala.dia).set(escala).then(_ => {
-      escala.vagas.forEach(b => {
 
-        b.vg.forEach(c => {
-      if (c.id) {
+
+
 // tslint:disable-next-line: radix
-      this.voluntarioService.updateDate(c.id, new Date(parseInt(escala.ano), parseInt(escala.mes), parseInt(escala.dia)));
-      }
-         });
+      this.voluntarioService.updateDate(escala);
 
-       });
 
       // this.openSnackBar('Salvo');
     }).catch(e => {
@@ -117,6 +136,8 @@ export class EscalaService {
 
  }
 
+
+
    update(escala: Escala) {
 
     this.escalaDoc = this.afs.doc(`escalas/${escala.id}`);
@@ -126,11 +147,21 @@ export class EscalaService {
 
    }
 
-   delete(id: string) {
-    this.escalaDoc = this.afs.doc(`escalas/${id}`);
-    this.escalaDoc.delete().then(_ => {
-      this.openSnackBar('Removido');
+   updateLed(id, data) {
+
+    this.afs.collection('escalas').doc(id).collection('leds').add(data);
+
+   }
+
+   delete(idindice: string, idescala, data: any) {
+    this.escalaDoc = this.afs.doc(`escalas/${idescala}`);
+    this.indiceEscalaDoc = this.afs.doc(`indiceescalas/${idindice}`);
+    return this.indiceEscalaDoc.update({dias: data}).then(_ => {
+      this.escalaDoc.delete().then(_ => {
+        this.openSnackBar('Removido');
+      });
     });
+
 
    }
 

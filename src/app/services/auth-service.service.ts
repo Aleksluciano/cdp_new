@@ -82,14 +82,14 @@ export class AuthService {
   register(uid: string, nome: string, email: string, password: string) {
 
       this.callCreate({uid: uid, nome: nome, email: email, password: password}).subscribe(a => {
-        console.log('retorno', a);
+
         if (a.data.email) {
           const user: User = {
             id: uid, nome: nome, email: email, role: { admin: false, user: true }
           };
 // tslint:disable-next-line: no-shadowed-variable
           this.usersCollection.doc(user.id).set(user).then(a => {
-            console.log(a);
+
 
           });
         }
@@ -106,7 +106,7 @@ export class AuthService {
   resetRegister(uid: string, nome: string, email: string, password: string, role: any) {
 
       this.callReset({uid: uid, nome: nome, email: email, password: password}).subscribe(a => {
-        console.log('retorno', a);
+
         if (a.data.email) {
           const user: User = {
             id: uid, nome: nome, email: email, role: role
@@ -115,7 +115,7 @@ export class AuthService {
           this.userDoc = this.afs.doc(`users/${user.id}`);
           this.userDoc.update(user).then(c => {
             this.openSnackBar('Resetado!', 'green-snackbar');
-           console.log('update', c);
+
          });
       }
 
@@ -129,11 +129,11 @@ export class AuthService {
   deleteRegister(uid: string) {
 
     this.callDelete({uid: uid}).subscribe(a => {
-      console.log('retorno', a);
+
       if (!Object.values(a.data).length) {
         this.userDoc = this.afs.doc(`users/${uid}`);
         this.userDoc.delete().then(c => {
-         console.log('delete', c);
+        
        });
     }
 

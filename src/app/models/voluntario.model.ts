@@ -16,6 +16,7 @@ export interface Voluntario {
   ultimavez?: Date;
   semdispo?: boolean;
   lider?: boolean;
+  telegram?: number;
 }
 
 

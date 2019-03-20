@@ -96,4 +96,8 @@ buildDiaPeriodo() {
       this.voluntarioService.update(this.voluntario);
     }
 
+    bot(){
+      window.location.href=`https://telegram.me/cdpsistema_bot?start=${this.voluntario.id}`
+      //this.voluntarioService.bot();
+    }
 }

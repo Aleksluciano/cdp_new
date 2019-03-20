@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
 
       this.authService.userB.subscribe(user => {
-        console.log("haha")
+
         if (user) {
         if (user.role.admin) {
           this.router.navigate(['/dias']);
@@ -41,10 +41,10 @@ export class LoginComponent implements OnInit {
 
   this.authService.login(this.email, this.password)
   .then(res => {
-    console.log("lelaaae",res);
+
   })
   .catch(err => {
-    console.log("lele",err);
+    
   });
 
     }

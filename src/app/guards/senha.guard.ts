@@ -18,8 +18,10 @@ export class SenhaGuard implements CanActivate {
 
     return this.authService.userB.pipe(
                  map(user => {
+                   if(user){
                    if (user.role.user) { return true; }
                    if (user.role.admin) { return true; }
+                   }
                    return false;
                   }),
                  tap(authorized => {

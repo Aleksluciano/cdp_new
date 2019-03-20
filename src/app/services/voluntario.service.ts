@@ -6,11 +6,15 @@ import { Voluntario } from '../models/voluntario.model';
 import { MatSnackBar, MatDialog, MatDialogConfig } from '@angular/material';
 import { AuthService } from './auth-service.service';
 import { InfoModalComponent } from '../components/shared/info-modal/info-modal.component';
+import { Escala } from '../models/escala.model';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { checkAndUpdateElementInline } from '@angular/core/src/view/element';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VoluntarioService {
+  callBot = this.fns.httpsCallable('botT');
 
   voluntariosCollection: AngularFirestoreCollection<Voluntario>;
   voluntarioDoc: AngularFirestoreDocument<Voluntario>;
@@ -18,6 +22,7 @@ export class VoluntarioService {
   voluntario: Observable<Voluntario>;
 
   constructor(
+    private fns: AngularFireFunctions,
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private afs: AngularFirestore,
@@ -78,13 +83,28 @@ export class VoluntarioService {
 
    }
 
-   updateDate(id: string, ultimavez: Date) {
-    this.voluntarioDoc = this.afs.doc(`voluntarios/${id}`);
-     this.voluntarioDoc.update({ultimavez: ultimavez}).then(a => {
-       console.log(a);
-      });
+   updateDate(escala: Escala) {
+    const batch = this.afs.firestore.batch();
+    const ultimavez = new Date(parseInt(escala.ano), parseInt(escala.mes), parseInt(escala.dia));
+   escala.vagas.forEach(b => {
+    b.vg.forEach(c => {
+  if (c.id) {
+    const ref = this.afs.firestore.collection('voluntarios').doc(`${c.id}`);
+    batch.update(ref, {ultimavez: ultimavez});
+// tslint:disable-next-line: radix
+  // this.voluntarioService.updateDate(c.id, new Date(parseInt(escala.ano), parseInt(escala.mes), parseInt(escala.dia)));
 
-   }
+}
+     });
+
+   });
+
+   batch.commit().then(a => {
+    this.openSnackBar('Escala Salva');
+}).then(e => {
+  console.log(e);
+});
+  }
 
 
 
@@ -121,4 +141,16 @@ export class VoluntarioService {
     }, );
   }
 
+  bot(token: string, id: string){
+
+this.callBot({token: token, userid: id}).subscribe(resp=>{
+  if(resp.telegram){
+    this.voluntarioDoc = this.afs.doc(`voluntarios/${id}`);
+    this.voluntarioDoc.update({ telegram: resp.telegram}).then(_ => {
+       //this.openSnackBar('Atualizado');
+     });
+  }
+})
+
+  }
 }

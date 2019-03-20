@@ -3,6 +3,10 @@
       <!-- <mat-icon>group</mat-icon> -->
       <span class="nav-caption" (click)="onClose($event.target.innerHTML)" *ngIf="isUser">Perfil</span>
     </a>
+    <a mat-list-item routerLink="/designacoes" *ngIf="isUser">
+      <!-- <mat-icon>group</mat-icon> -->
+      <span class="nav-caption" (click)="onClose($event.target.innerHTML)" *ngIf="isUser">Designações</span>
+    </a>
     <div *ngIf="isAdmin">
     <a mat-list-item routerLink="/dias" >
       <!-- <mat-icon>group</mat-icon> -->

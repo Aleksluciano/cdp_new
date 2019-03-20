@@ -36,6 +36,7 @@ testem.log
 
 /src/environments
 /functions/secret
+functions/.runtimeconfig.json
 
 # System Files
 .DS_Store

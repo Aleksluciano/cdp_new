@@ -16,10 +16,12 @@ import { UserGuard } from './guards/user.guard';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { SenhaComponent } from './components/senha/senha.component';
 import { SenhaGuard } from './guards/senha.guard';
+import { DesignacoesComponent } from './components/designacoes/designacoes.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'perfil', component: PerfilComponent, canActivate: [UserGuard]},
+  {path: 'designacoes', component: DesignacoesComponent, canActivate: [UserGuard]},
   {path: 'dias', component: DiasComponent, canActivate: [AuthGuard]},
   {path: 'periodos', component: PeriodosComponent, canActivate: [AuthGuard]},
   {path: 'diasperiodos', component: DiasperiodosComponent, canActivate: [AuthGuard]},

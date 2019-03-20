@@ -11,6 +11,11 @@
     <p><span>Sexo:</span> {{ voluntario?.sexo === 'M' ? 'Masculino' : 'Feminino'  }}</p>
     <p><span>Congregação:</span> {{ voluntario?.congregacao }}</p>
     <p><span>Cidade:</span> {{ voluntario?.cidade }}</p>
+    <p><span>Telegram:</span> {{ voluntario?.telegram ? '✔️' : '❌'}}
+    </p>
+    <p><button class="bttelegram" mat-mini-fab (click)="bot()"><mat-icon>send</mat-icon></button>
+
+    </p>
   </mat-card-content>
 
   <mat-divider [inset]="true"></mat-divider>
@@ -32,8 +37,10 @@
       </div>
     </div>
   </mat-card>
-  <button type="button" mat-raised-button color="primary" (click)="save()">Salvar</button>
-
 </div>
+<br>
+<div>
+    <button class="salvar" *ngIf="!voluntario?.dependente && pronto" type="button" mat-raised-button color="primary" (click)="save()">Salvar</button>
+  </div>
 </mat-card>
 </div>

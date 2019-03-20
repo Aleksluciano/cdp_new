@@ -1,0 +1,41 @@
+
+<div *ngIf="pronto && !vagas.length">
+<br>
+<h3>Você não possui designações no momento</h3>
+</div>
+<div *ngIf="pronto && vagas.length">
+<br>
+<div *ngFor="let per of periodos[0]?.periodos;let i = index">
+<table>
+  <tr>
+      <th class="statusth"></th>
+    <th>{{ dayweek.toUpperCase() }}</th>
+    <th class="linhaCong">{{ day }}-{{ mes.substr(0,3) }}</th>
+  </tr>
+<tr>
+  <th class="statusth"></th>
+    <th>{{ per.name }} </th>
+    <th class="linhaCong">CONGREGAÇÃO</th>
+  </tr>
+
+  <tr *ngFor="let vaga of vagas[i];let v = index" >
+      <td
+      [ngClass]="{
+        'dotyellow': vaga.status == '1',
+        'dotgreen': vaga.status == '2',
+        'dotred': vaga.status == '3' }"
+      class="status" *ngIf="vaga.name"></td>
+      <td class="status" *ngIf="!vaga.name"></td>
+      <td [ngClass]="{'blueRow': !vaga.name}">{{vaga?.name || 'livre'}}<span class="lider" *ngIf="vaga.lider" >💡</span></td>
+      <td [ngClass]="{'blueRow': !vaga.name}" class="linhaCong">{{ vaga?.congregacao }}</td>
+     </tr>
+  </table>
+      <div class="btRequest" *ngIf="searchId(vagas[i])">
+          <tr>
+    <td><button mat-raised-button color="primary" (click)="request(true)">Confirmar</button>
+<button class="btCancel" mat-raised-button color="warn" (click)="request(false)">Recusar</button></td>
+  </tr>
+   </div>
+
+</div>
+</div>
