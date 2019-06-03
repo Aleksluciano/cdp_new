@@ -103,6 +103,7 @@ export class DesignacoesComponent implements OnInit {
         this.day = this.escala.dia;
         this.periodos = this.escala.periodos;
         const vaga = [];
+        let encontrou_voluntario = false;
         this.escala.vagas.forEach(b => {
           const ar = [];
           b.vg.forEach(c => {
@@ -118,19 +119,24 @@ export class DesignacoesComponent implements OnInit {
               }
             } else { c.status = '1'; }
           }
+          if (c.id === this.voluntario.id) {encontrou_voluntario = true; }
             ar.push(c);
           });
           vaga.push(ar);
         });
         console.log('ponto 3');
+        if (encontrou_voluntario) {
         this.vagas = vaga;
+        } else {
+          this.vagas = [];
+        }
         this.pronto = true;
       });
   }
 
   searchId(vagas) {
-    if (vagas.find(a => a.id === this.voluntario.id && a.status === '1')) {
-      return true;
+  if (vagas.find(a => a.id === this.voluntario.id && a.status === '1')) {
+    return true;
     }
     return false;
   }

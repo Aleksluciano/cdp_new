@@ -20,6 +20,10 @@
   margin-left: 20px;
 }
 
+// mat-button-toggle:active,:focus,:target{
+//   font-size: 1.5em;
+// }
+
 th{
   background-color: lightgreen;
   min-width: 180px;
@@ -126,7 +130,8 @@ margin-left:15px;
 margin-left: 30px;
 }
 #distanceButton{
-  margin-left: 60px;
+  margin-left: 10px;
+  margin-right: 20px;
 }
 .topSinal{
   margin-top:5px;
@@ -149,6 +154,12 @@ margin-left: 30px;
   float: right;
   margin-right: 50px;
   margin-top: 15px;
+}
+.telegram{
+  float: right;
+  margin-right: 50px;
+  margin-top: 15px;
+  background-color: #32afed;
 }
 .remover{
   float: right;
@@ -180,3 +191,27 @@ margin-left: 30px;
   display: inline-block;
 }
 
+
+.numerao{
+  font-size: 1.8em;
+}
+
+.todosVol{
+  width: 10px;
+  height: 10px;
+  margin-left: 220px;
+  margin-bottom: 15px;
+  margin-top: -15px;
+}
+
+#telegramGrupo{
+  background-color: #32afed;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+}
+
+#escalaSalva{
+  background-color: #f0f352;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+}

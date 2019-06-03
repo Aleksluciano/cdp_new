@@ -14,7 +14,7 @@ import { checkAndUpdateElementInline } from '@angular/core/src/view/element';
   providedIn: 'root'
 })
 export class VoluntarioService {
-  callBot = this.fns.httpsCallable('botT');
+
 
   voluntariosCollection: AngularFirestoreCollection<Voluntario>;
   voluntarioDoc: AngularFirestoreDocument<Voluntario>;
@@ -22,7 +22,6 @@ export class VoluntarioService {
   voluntario: Observable<Voluntario>;
 
   constructor(
-    private fns: AngularFireFunctions,
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private afs: AngularFirestore,
@@ -141,16 +140,5 @@ export class VoluntarioService {
     }, );
   }
 
-  bot(token: string, id: string){
 
-this.callBot({token: token, userid: id}).subscribe(resp=>{
-  if(resp.telegram){
-    this.voluntarioDoc = this.afs.doc(`voluntarios/${id}`);
-    this.voluntarioDoc.update({ telegram: resp.telegram}).then(_ => {
-       //this.openSnackBar('Atualizado');
-     });
-  }
-})
-
-  }
 }

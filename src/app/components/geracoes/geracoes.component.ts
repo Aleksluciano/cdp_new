@@ -16,6 +16,9 @@ import { EscalaService } from '../../services/escala.service';
 import { Escala } from '../../models/escala.model';
 import { Led } from '../../models/led.model';
 import { empty, EMPTY } from 'rxjs';
+import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
+import { TodosComponent } from './todos/todos.component';
+import { TelegramComponent } from './telegram/telegram.component';
 
 @Component({
   selector: 'app-geracoes',
@@ -135,9 +138,10 @@ export class GeracoesComponent implements OnInit {
             compareday,
             new Date(a.ultimavez['seconds'] * 1000)
           );
-          if (dif < 31) {
-            a.usado = true;
-          }
+          console.log('ZEH10', a, dif);
+           if (dif < 31 && dif !== 0) {
+             a.usado = true;
+           }
         }
         return {
           id: a.id,
@@ -152,7 +156,8 @@ export class GeracoesComponent implements OnInit {
           disponibilidade: a.disponibilidade,
           total: 0,
           usado: false,
-          status: '1'
+          status: '1',
+          telegram: a.telegram || ''
         };
       });
 
@@ -223,7 +228,7 @@ export class GeracoesComponent implements OnInit {
 
       if (nameDayExist) {
         day = tomorrow.getDate();
-        this.days.push([day, semana[day_week], false]);
+        this.days.push([day, semana[day_week], false, false]);
       }
 
       tomorrow.setDate(tomorrow.getDate() + 1);
@@ -245,11 +250,20 @@ export class GeracoesComponent implements OnInit {
   }
 
   onSetDay(day, dayweek) {
+
+    this.days.forEach(a => {
+      a[3] = false;
+      if (a[0] === day) {
+        a[3] = true;
+      }
+    });
+
     this.filterInput = '';
     this.setDay(day, dayweek);
   }
 
   setDay(day, dayweek) {
+    this.escala = null;
     this.choiceConfig = 100;
     this.showBox = true;
     this.dayweek = dayweek;
@@ -271,12 +285,14 @@ export class GeracoesComponent implements OnInit {
       parseInt(this.day, 10)
     );
 
+
+
     this.todos.forEach(b => {
       const dif = this.diffDaysCalc(
         compareday,
         new Date(b.ultimavez['seconds'] * 1000)
       );
-      if (dif < 31) {
+      if (dif < 31 && dif !== 0) {
         b.usado = true;
       } else {
         b.usado = false;
@@ -685,6 +701,25 @@ export class GeracoesComponent implements OnInit {
 
   save() {
 
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = {
+      message: `Deseja realmente SALVAR a escala`,
+      item: ``
+    };
+
+    dialogConfig.position = {
+      top: '10%'
+    };
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+
+    this.dialog
+      .open(ConfirmModalComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(confirm => {
+    if (confirm) {
     if (this.days.length) {
       const daySave = [];
 
@@ -720,8 +755,12 @@ export class GeracoesComponent implements OnInit {
         vagas: vaga.map(a => ({...a}))
       };
 
+      if (this.escala) {escala.messageId = this.escala.messageId; }
+
       this.escalaService.createIndiceEscala(indice, escala);
     }
+  }
+});
   }
 
   diffDaysCalc(pdate1: Date, pdate2: Date) {
@@ -742,6 +781,32 @@ export class GeracoesComponent implements OnInit {
   }
 
   remove() {
+
+
+
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.data = {
+        message: `Deseja realmente REMOVER a escala`,
+        item: ``
+      };
+
+      dialogConfig.position = {
+        top: '10%'
+      };
+
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+
+      this.dialog
+        .open(ConfirmModalComponent, dialogConfig)
+        .afterClosed()
+        .subscribe(confirm => {
+      if (confirm) {
+
+
+
+
     const idindice = this.ano + this.mes;
     const idescala = this.ano + this.meses.indexOf(this.mes) + this.day;
     const daySave = [];
@@ -755,5 +820,101 @@ export class GeracoesComponent implements OnInit {
     this.escalaService.delete(idindice, idescala, daySave).then(a => {
 
     });
+  }
+});
+  }
+
+  geral() {
+    if (this.choiceConfig === 100) {
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.data = {
+        title: `Seleção de Período`,
+        message: `Para começar a escalar você deve primeiro selecionar qual período quer configurar!`
+      };
+
+      this.dialog.open(InfoModalComponent, dialogConfig);
+      return;
+    } else {
+
+
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.position = {
+      top: '10%',
+      left: '50%'
+    };
+
+    dialogConfig.data = {
+      options: this.voluntarios
+    };
+
+    this.dialog
+      .open(TodosComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.addToEscala(result);
+          // this.diaService.create(result);
+        }
+      });
+    }
+  }
+
+  telegram() {
+   const dialogConfig = new MatDialogConfig();
+    dialogConfig.position = {
+      top: '10%',
+      left: '50%'
+    };
+
+
+    this.dialog
+      .open(TelegramComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(result => {
+        if (result) {
+          console.log('RESULT', result);
+          if (result === '1') {
+            // *Período:* ${} \n
+        let body = '-------------------------------'; ;
+        this.escala.periodos[0].periodos.forEach((a, i) => {
+          body += '\n-------------------------------';
+          body += `\n*Período:* ${a.name}`;
+          body += '\n-------------------------------\n';
+          let cong = '';
+          this.escala.vagas[i].vg.sort((x, z) => {
+            if (x.congregacao < z.congregacao) {
+            return -1;
+          }
+          if (x.congregacao > z.congregacao) {
+            return 1;
+          }
+          return 0;
+        });
+          this.escala.vagas[i].vg.forEach(b => {
+          if (b.congregacao !== cong && b.name) {
+            body += `*Cong:* ${b.congregacao}\n`;
+          }
+          if (b.name) {
+          body+= `_${b.name}_\n`;
+          }
+
+          cong = b.congregacao;
+
+      });
+
+    });
+    body += '\n-------------------------------';
+    body += '\n-------------------------------';
+           const message =
+`⭐ *CDP Designação*\n
+*Dia:* ${this.day} de ${this.mes} - ${this.dayweek}
+${body}`;
+console.log('VEJA', message);
+            this.escalaService.botSend(message, this.escala.id, this.escala.messageId);
+          }
+        }
+      });
   }
 }

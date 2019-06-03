@@ -6,4 +6,5 @@ export interface Escala {
   dia: string;
   periodos?: any;
   vagas?: any;
+  messageId?: number;
 }

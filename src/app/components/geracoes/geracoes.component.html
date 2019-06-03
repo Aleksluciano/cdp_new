@@ -16,12 +16,16 @@
 </mat-form-field>
 
 <mat-button-toggle-group class="toggleDay" name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle  [ngClass]="{'yel': day[2]}" *ngFor="let day of days" matTooltip={{day[1]}} (click)="onSetDay(day[0],day[1])">{{ day[0] }}</mat-button-toggle>
+    <mat-button-toggle  class="numberDay" [ngClass]="{'yel': day[2], 'numerao': day[3]}" *ngFor="let day of days" matTooltip={{day[1]}} (click)="onSetDay(day[0],day[1])" >{{ day[0] }}</mat-button-toggle>
   </mat-button-toggle-group>
   <button [disabled]="!allowRemove()" class="remover" mat-raised-button color="warn" (click)="remove()">Remover</button>
   <button *ngIf="day" class="salvar" mat-raised-button color="primary" (click)="save()">Salvar</button>
+  <button [disabled]="!allowRemove()" class="telegram" mat-raised-button color="primary" (click)="telegram()"><mat-icon matSuffix>send</mat-icon></button>
 </div>
-
+<div>
+    <h5 id="escalaSalva" *ngIf="escala">Escala Salva</h5>
+  <h5 id="telegramGrupo" *ngIf="escala?.messageId">Telegram Grupo Enviado</h5>
+</div>
 
 
 
@@ -74,13 +78,15 @@
 </div>
 
 <div  *ngIf="showBox" class="secaoVoluntarios" fxFlex=60 >
+
     <div class="inline" fxLayout="row">
     <mat-form-field fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
         <input class="inline" [(ngModel)]="filterInput" matInput (keyup)="applyFilter($event?.target?.value)" placeholder="Filtro">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
-
-          <button id="distanceButton" mat-icon-button (click)="sortByAlpha()">
+      <button id="distanceButton" mat-icon-button (click)="geral()"> <mat-icon >group</mat-icon>
+      </button>
+          <button  mat-icon-button (click)="sortByAlpha()">
               <mat-icon >sort_by_alpha</mat-icon>
             </button>
             <button mat-icon-button (click)="sortByTime()">
@@ -92,6 +98,9 @@
                 &nbsp; &nbsp; &nbsp; &nbsp;
                  <h4>{{disponiveis(voluntarioRef)}}</h4>
             </div>
+            <!-- <div class="todosVol">
+                <button (click)="geral()">Todos</button>
+                </div> -->
   <div class="secaoScroll" *ngFor="let vol of voluntarioRef;let v = index" >
     <div>
       <button *ngIf="!vol.dependente" [disabled]="vol.usado" mat-stroked-button class="addButton" (click)="addToEscala(vol)"><mat-icon>add</mat-icon></button>

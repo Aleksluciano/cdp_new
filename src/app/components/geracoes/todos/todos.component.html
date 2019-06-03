@@ -1,0 +1,12 @@
+<button (click)="add()" mat-dialog-close>+</button>
+<mat-form-field class="example-full-width">
+    <input type="text" placeholder="Selecione um voluntário" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nome">
+        {{option.nome}} <span class="aditional">Congregação: {{ option.congregacao }}</span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div mat-dialog-actions>
+      <button type="button" id="buttonNo" mat-button [mat-dialog-close]>Fechar</button>
+  </div>

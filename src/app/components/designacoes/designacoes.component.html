@@ -26,13 +26,13 @@
         'dotred': vaga.status == '3' }"
       class="status" *ngIf="vaga.name"></td>
       <td class="status" *ngIf="!vaga.name"></td>
-      <td [ngClass]="{'blueRow': !vaga.name}">{{vaga?.name || 'livre'}}<span class="lider" *ngIf="vaga.lider" >💡</span></td>
+      <td [ngClass]="{'blueRow': !vaga.name, 'bold': vaga.id === voluntario.id}">{{vaga?.name || 'livre'}}<span class="lider" *ngIf="vaga.lider" >💡</span></td>
       <td [ngClass]="{'blueRow': !vaga.name}" class="linhaCong">{{ vaga?.congregacao }}</td>
      </tr>
   </table>
       <div class="btRequest" *ngIf="searchId(vagas[i])">
           <tr>
-    <td><button mat-raised-button color="primary" (click)="request(true)">Confirmar</button>
+    <td><button mat-raised-button class="btConfirm" (click)="request(true)">Confirmar</button>
 <button class="btCancel" mat-raised-button color="warn" (click)="request(false)">Recusar</button></td>
   </tr>
    </div>

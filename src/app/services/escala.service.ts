@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { Escala } from '../models/escala.model';
 import { MatSnackBar } from '@angular/material';
 import { Led } from '../models/led.model';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 
 @Injectable({
@@ -26,8 +27,10 @@ export class EscalaService {
 
   ledsCollection: AngularFirestoreCollection<Led>;
   leds: Observable<Led[]>;
+  callBotSend = this.fns.httpsCallable('botSend');
 
   constructor(
+    private fns: AngularFireFunctions,
     private snackBar: MatSnackBar,
     private afs: AngularFirestore,
     private voluntarioService: VoluntarioService
@@ -149,7 +152,7 @@ export class EscalaService {
 
    updateLed(id, data) {
 
-    this.afs.collection('escalas').doc(id).collection('leds').add(data);
+    this.afs.collection('escalas').doc(id).collection('leds').doc(data.volid).set(data);
 
    }
 
@@ -172,5 +175,23 @@ export class EscalaService {
       panelClass: ['green-snackbar']
     }, );
   }
+
+
+  botSend(body: string, escalaId: string, messageId: number) {
+console.log(body, escalaId, messageId);
+    this.callBotSend({text: body, escalaId: escalaId, messageId: messageId}).subscribe(resp => {
+        console.log('resultado', resp);
+      if (resp.resultado === 'Ok') {
+          this.openSnackBar('Telegram enviado');
+        }
+      // if(resp.telegram){
+      //   this.voluntarioDoc = this.afs.doc(`voluntarios/${id}`);
+      //   this.voluntarioDoc.update({ telegram: resp.telegram}).then(_ => {
+      //      //this.openSnackBar('Atualizado');
+      //    });
+      // }
+    });
+
+      }
 
 }

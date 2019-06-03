@@ -79,6 +79,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { SenhaComponent } from './components/senha/senha.component';
 import { DesignacoesComponent } from './components/designacoes/designacoes.component';
+import { TodosComponent } from './components/geracoes/todos/todos.component';
+import { TelegramComponent } from './components/geracoes/telegram/telegram.component';
 
 @NgModule({
   declarations: [
@@ -112,9 +114,10 @@ import { DesignacoesComponent } from './components/designacoes/designacoes.compo
     SenhaComponent,
     ForgotpassComponent,
     InfoRegisterComponent,
-    DesignacoesComponent
+    DesignacoesComponent,
+    TodosComponent,
+    TelegramComponent
   ],
-  exports:[ForgotpassComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -180,6 +183,8 @@ import { DesignacoesComponent } from './components/designacoes/designacoes.compo
     AddVoluntarioComponent,
     EditVoluntarioComponent,
     InfoRegisterComponent,
+    TodosComponent,
+    TelegramComponent
   ]
 })
 export class AppModule { }

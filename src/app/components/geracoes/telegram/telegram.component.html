@@ -1,0 +1,14 @@
+<h3>Escolha o modo de envio</h3>
+<div>
+<mat-radio-group aria-label="Select an option" [(ngModel)]="choice">
+    <mat-radio-button value="1" >Grupo</mat-radio-button>
+    &nbsp;&nbsp;
+    <mat-radio-button value="2">Individual</mat-radio-button>
+  </mat-radio-group>
+</div>
+<br><br>
+  <div mat-dialog-actions>
+      <button type="button" id="buttonYes" mat-button [mat-dialog-close] (click)="send()">Enviar</button>
+      &nbsp;&nbsp;
+      <button type="button" id="buttonNo" mat-button [mat-dialog-close]>Cancelar</button>
+  </div>
