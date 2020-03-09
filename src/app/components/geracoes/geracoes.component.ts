@@ -139,7 +139,7 @@ export class GeracoesComponent implements OnInit {
             new Date(a.ultimavez['seconds'] * 1000)
           );
           console.log('ZEH10', a, dif);
-           if (dif < 31 && dif !== 0) {
+           if (dif && dif < 31) {
              a.usado = true;
            }
         }
@@ -292,7 +292,7 @@ export class GeracoesComponent implements OnInit {
         compareday,
         new Date(b.ultimavez['seconds'] * 1000)
       );
-      if (dif < 31 && dif !== 0) {
+      if (dif && dif < 31) {
         b.usado = true;
       } else {
         b.usado = false;
@@ -875,7 +875,7 @@ export class GeracoesComponent implements OnInit {
       .subscribe(result => {
         if (result) {
           console.log('RESULT', result);
-          if (result === '1') {
+          if (result == '1') {
             // *Período:* ${} \n
         let body = '-------------------------------'; ;
         this.escala.periodos[0].periodos.forEach((a, i) => {
@@ -907,8 +907,7 @@ export class GeracoesComponent implements OnInit {
     });
     body += '\n-------------------------------';
     body += '\n-------------------------------';
-           const message =
-`⭐ *CDP Designação*\n
+const message = `⭐ *CDP Designação*\n
 *Dia:* ${this.day} de ${this.mes} - ${this.dayweek}
 ${body}`;
 console.log('VEJA', message);
